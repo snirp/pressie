@@ -1,6 +1,7 @@
 # Project specific
 media/
-.idea
+static/
+.idea/
 venv/
 
 #### github boilerplate ###

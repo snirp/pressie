@@ -17,10 +17,8 @@ SECRET_KEY = 'zn6-(-ec*##h05a3o(_-6f2vfqivth%n3q-@z-+vtgc09j26v('
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 TEMPLATE_DEBUG = True
 
-THUMBNAIL_DEBUG = True
 
 ALLOWED_HOSTS = []
 
