@@ -1,0 +1,48 @@
+{% for cgrp in conditiemeting.conditiegroep_set.all %}
+<section class="container cgrp">
+  <div class="row">
+    <div class="col col-1-2">
+      <h4>{{ cgrp }}</h4>
+      <p>{{ cgrp.scenariogroep.complexgroep.beschrijving }}</p>
+    </div>
+    <div class="col col-1-2">
+      <div class="conditie conditie{{ cgrp.conditie }}">
+        <div class="vak vak0"></div>
+        <div class="vak vak1"></div>
+        <div class="vak vak2"></div>
+        <div class="vak vak3"></div>
+        <div class="vak vak4"></div>
+        <div class="vak vak5"></div>
+      </div>
+      <p class="conditie-bevinding">{{ cgrp.bevinding }}</p>
+    </div>
+  </div>
+
+
+  <table class="table conditiegroep-table">
+    <tr>
+      <th>deel</th>
+      <th>hvh</th>
+      <th></th>
+      <th>jaar</th>
+      <th>conditie</th>
+    </tr>
+      {% for cdl in cgrp.conditiedeel_set.all %}
+    <tr>
+      <td>{{ cdl }} {% if cdl.conditiescore > 2 %}<i class="fa fa-camera-retro">{% endif %}</i></td>
+      <td>{{ cdl.deel.hvh }}</td>
+      <td>{{ cdl.deel.get_eenheid }}</td>
+      <td>{{ cdl.deel.complexdeel.onderhoudsjaar }}</td>
+      <td class="conditie conditie{{ cdl.conditiescore }}">
+        <div class="vak vak0"></div>
+        <div class="vak vak1"></div>
+        <div class="vak vak2"></div>
+        <div class="vak vak3"></div>
+        <div class="vak vak4"></div>
+        <div class="vak vak5"></div>
+      </td>
+    </tr>
+      {% endfor %}
+  </table>
+</section>
+{% endfor %}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="{% static "css/style.css" %}">
+{% endblock %}
+
+{% block content %}
+
+<table>
+  <tr>
+    <th>jaren</th>
+    {% for j in scenario.jaar_range %}
+      <th class="jaar-header">
+        {{ j }}
+      </th>
+    {% endfor %}
+  </tr>
+  {% for sgrp in scenario.scenariogroep_set.all %}
+    {% for d in sgrp.deel_set.all %}
+      {% for m in d.maatregel_set.all %}
+        <tr>
+          <td>{{ m }}</td>
+            {% for jbedrag in m.get_jaarbedragen %}
+              <td class="jaar-bedrag">{{ jbedrag|floatformat:0|intcomma }}</td>
+            {% endfor %}
+        </tr>
+      {% endfor %}
+    {% endfor %}
+    <tr>
+      <td>{{ sgrp }}</td>
+      {% for jbedrag in sgrp.get_jaarbedragen %}
+        <td class="jaar-bedrag strong">{{ jbedrag|floatformat:0|intcomma }}</td>
+      {% endfor %}
+    </tr>
+  {% endfor %}
+</table>
+
+
+{% for sgrp in scenario.scenariogroep_set.all %}
+<h4>{{ sgrp }}</h4>
+  <table class="table maatregel-table">
+    <tr class="accent-primair">
+      <th>activiteit</th>
+      <th>hvh</th>
+      <th>eh</th>
+      <th>start</th>
+      <th>cyclus</th>
+      <th>eind</th>
+      <th>ehprijs</th>
+      <th>kosten ex</th>
+    </tr>
+  </table>
+  {% for d in sgrp.deel_set.all %}
+    <table class="table deel-table">
+      <tr>
+        <td>{{ d }}</td>
+        <td>{{ d.hvh|intcomma }}</td>
+        <td>{{ d.get_eenheid }}</td>
+      </tr>
+    </table>
+    <table class="table maatregel-table">
+        {% for m in d.maatregel_set.all %}
+          <tr class="accent-primair">
+            <td>{{ m }}</td>
+            <td>{{ m.hvh_display }}</td>
+            <td>{{ m.eh }}</td>
+            <td>{{ m.start }}</td>
+            <td>{{ m.cyclus }}</td>
+            <td>{{ m.eind }}</td>
+            <td>€ {{ m.ehprijs|intcomma }}</td>
+            <td>€ {{ m.kosten_ex|intcomma }}</td>
+          </tr>
+        {% endfor %}
+    </table>
+  {% endfor %}
+
+{% endfor %}
+
+{% endblock %}

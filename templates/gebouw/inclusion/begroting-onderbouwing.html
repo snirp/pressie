@@ -1,0 +1,40 @@
+{% load humanize %}
+
+{% for sgrp in scenario.scenariogroep_set.all %}
+<h4>{{ sgrp }}</h4>
+  <table class="table maatregel-table">
+    <tr>
+      <th class="strong">activiteit</th>
+      <th class="strong">hvh</th>
+      <th class="strong">eh</th>
+      <th class="strong">start</th>
+      <th class="strong">cyclus</th>
+      <th class="strong">eind</th>
+      <th class="strong">ehprijs</th>
+      <th class="strong">kosten ex</th>
+    </tr>
+  </table>
+  {% for d in sgrp.deel_set.all %}
+    <table class="table deel-table">
+      <tr>
+        <td>{{ d }}</td>
+        <td>{{ d.hvh|intcomma }}</td>
+        <td>{{ d.get_eenheid }}</td>
+      </tr>
+    </table>
+    <table class="table maatregel-table">
+        {% for m in d.maatregel_set.all %}
+          <tr class="accent-primair">
+            <td>{{ m }}</td>
+            <td>{{ m.hvh_display }}</td>
+            <td>{{ m.eh }}</td>
+            <td>{{ m.start }}</td>
+            <td>{{ m.cyclus }}</td>
+            <td>{{ m.eind }}</td>
+            <td>€ {{ m.ehprijs|floatformat:0|intcomma }}</td>
+            <td>€ {{ m.kosten_ex|floatformat:0|intcomma }}</td>
+          </tr>
+        {% endfor %}
+    </table>
+  {% endfor %}
+{% endfor %}

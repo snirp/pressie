@@ -1,0 +1,40 @@
+{% load thumbnail %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+
+
+
+{% thumbnail "http://www.wildaid.org/sites/default/files/photos/elephants_Peter%20Knights.JPG" "160x160" crop="80% top" as im %}
+    <img src="{{ im.url }}">
+{% endthumbnail %}
+
+<h1>{{ object }}</h1>
+
+{% for g in object.complexgroep_set.all %}
+  <section class="">
+    <h4>{{ g }}</h4>
+    {{ g.beschrijving }}
+  </section>
+{% endfor %}
+
+
+<h3>{{ object.actueel_scenario }}</h3>
+
+{% for g in object.actueel_scenario.scenariogroep_set.all %}
+  <section class="">
+    <h4>{{ g }}</h4>
+    {{ g.beschrijving }}
+      <ul>
+        {% for d in g.deel_set.all %}
+          <li>{{ d }}: {{ d.hvh }} {{ d.complexdeel.element.get_meeteenheid_display }}</li>
+        {% endfor %}
+      </ul>
+  </section>
+{% endfor %}
+
+</body>
+</html>

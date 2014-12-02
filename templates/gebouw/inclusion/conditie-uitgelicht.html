@@ -1,0 +1,82 @@
+{% load thumbnail %}
+{% load humanize %}
+
+
+{% for cgrp in conditiemeting.conditiegroep_set.all %}
+  {% for cdl in cgrp.conditiedeel_set.all %}
+    {% if cdl.conditiescore > 2 %}
+      <div class="container conditiedeel">
+        <table class="table conditiedeel-table">
+          <tr>
+            <th class="conditie{{ cdl.conditiescore }}">
+              <div class="vak vak-enkel"></div>
+              <strong>{{ cdl.conditiegroep }} - {{ cdl }}: {{ cdl.deel.hvh }} {{ cdl.deel.get_eenheid }}</strong></th>
+            <th>ernst</th>
+            <th>intensiteit</th>
+            <th>omvang</th>
+          </tr>
+        {% for g in cdl.gebrek_set.all %}
+          <tr>
+            <td class="gebrek">
+              {{ g }}
+            </td>
+            <td class="ernst ernst{{ g.nengebrek.gebrektype.ernst }}">
+              <div class="vak vak1"></div>
+              <div class="vak vak2"></div>
+              <div class="vak vak3"></div>
+            </td>
+            <td class="intensiteit intensiteit{{ g.intensiteit }}">
+              <div class="vak vak1"></div>
+              <div class="vak vak2"></div>
+              <div class="vak vak3"></div>
+            </td>
+            <td class="omvang omvang{{ g.omvang }}">
+              <div class="vak vak0"></div>
+              <div class="vak vak1"></div>
+              <div class="vak vak2"></div>
+              <div class="vak vak3"></div>
+              <div class="vak vak4"></div>
+            </td>
+          </tr>
+        {% endfor %}
+        </table>
+        <div class="conditie-fotos">
+          {% for f in cdl.conditiefoto_set.all|slice:":5" %}
+            {% thumbnail f.foto "240x240" crop="center" as im %}
+              <img src="{{ im.url }}">
+            {% endthumbnail %}
+          {% endfor %}
+        </div>
+
+
+        <table class="table maatregel-table">
+          <tr>
+            <th class="strong">activiteit</th>
+            <th class="strong">opmerking</th>
+            <th class="strong">hvh</th>
+            <th class="strong"></th>
+            <th class="strong">start</th>
+            <th class="strong">cyclus</th>
+            <th class="strong">eind</th>
+            <th class="strong">ehprijs</th>
+            <th class="strong">kosten ex</th>
+          </tr>
+        {% for m in cdl.deel.maatregel_set.all %}
+          <tr class="accent-primair">
+            <td>{{ m }}</td>
+            <td>{% if m.opmerking %}{{ m.opmerking }}{% endif %}</td>
+            <td>{{ m.hvh_display }}</td>
+            <td>{{ m.eh }}</td>
+            <td>{{ m.start }}</td>
+            <td>{{ m.cyclus }}</td>
+            <td>{{ m.eind }}</td>
+            <td>€ {{ m.ehprijs|floatformat:0|intcomma }}</td>
+            <td>€ {{ m.kosten_ex|floatformat:0|intcomma }}</td>
+          </tr>
+        {% endfor %}
+        </table>
+      </div>
+
+    {% endif %}
+  {% endfor %}
+{% endfor %}

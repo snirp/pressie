@@ -1,0 +1,77 @@
+{% load humanize %}
+
+
+
+<table class="table begrotingoverzicht-table">
+    <tr>
+      <th></th>
+      {% for j in scenario.jaar_bereik|slice:":10" %}
+        <th class="jaar-header">
+          {{ j }}
+        </th>
+      {% endfor %}
+        <th>
+          {{ scenario.restbereik_beschrijving }}
+        </th>
+    </tr>
+  {% for sgrp in scenario.scenariogroep_set.all %}
+    <tr>
+      <td>{{ sgrp }}</td>
+      {% for jbedrag in sgrp.jaarbedragen|slice:":10" %}
+        <td class="jaar-bedrag">
+          {{ jbedrag|floatformat:0|intcomma }}
+        </td>
+      {% endfor %}
+      <td class="jaar-bedrag">{{ sgrp.restbereik_bedrag|floatformat:0|intcomma }}</td>
+    </tr>
+  {% endfor %}
+    <tr class="subtotaal-row">
+      <td>totaal</td>
+    {% for jbedrag in scenario.jaarbedragen|slice:":10" %}
+      <td class="jaar-bedrag strong">
+        {{ jbedrag|floatformat:0|intcomma }}
+      </td>
+    {% endfor %}
+      <td class="jaar-bedrag strong">
+        {{ scenario.restbereik_bedrag|floatformat:0|intcomma }}
+      </td>
+    </tr>
+</table>
+
+{% for sgrp in scenario.scenariogroep_set.all %}
+  <table class="table begrotingoverzicht-table">
+    <tr>
+      <th></th>
+      {% for j in scenario.jaar_bereik|slice:":10" %}
+        <th class="jaar-header">
+          {{ j }}
+        </th>
+      {% endfor %}
+        <th>
+          {{ scenario.restbereik_beschrijving }}
+        </th>
+    </tr>
+  {% for d in sgrp.deel_set.all %}
+    {% for m in d.maatregel_set.all %}
+      <tr>
+        <td>{{ m }}</td>
+        {% for jbedrag in m.jaarbedragen|slice:":10" %}
+          <td class="jaar-bedrag">
+            {{ jbedrag|floatformat:0|intcomma }}
+          </td>
+        {% endfor %}
+        <td class="jaar-bedrag">{{ m.restbereik_bedrag|floatformat:0|intcomma }}</td>
+      </tr>
+    {% endfor %}
+  {% endfor %}
+      <tr class="subtotaal-row">
+        <td class="strong">{{ sgrp }}</td>
+        {% for jbedrag in sgrp.jaarbedragen|slice:":10" %}
+          <td class="jaar-bedrag strong">
+            {{ jbedrag|floatformat:0|intcomma }}
+          </td>
+        {% endfor %}
+        <td class="jaar-bedrag strong">{{ sgrp.restbereik_bedrag|floatformat:0|intcomma }}</td>
+      </tr>
+    </table>
+{% endfor %}
