@@ -16,13 +16,15 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
   <script src={% static "js/gritty.js" %}></script>
   <script src={% static "js/begrotingparser.js" %}></script>
+    <script src={% static "js/jquery.colorbox-min.js" %}></script>
+<link href={% static 'css/colorbox.css' %} rel='stylesheet' type='text/css'>
   <link href={% static 'css/gritty.css' %} rel='stylesheet' type='text/css'><!--TODO add to static Remove redundancy-->
   {% block extrahead %}{% endblock %}
 
 </head>
 <body>
-<div class="container">
+
 {% block content %}{% endblock %}
-</div>
+
 </body>
 </html>

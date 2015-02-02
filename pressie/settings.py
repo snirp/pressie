@@ -21,7 +21,7 @@ TEMPLATE_DEBUG = True
 
 THUMBNAIL_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.conditie.org']
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -33,6 +33,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'rest_framework',
     'onderhoud',
+    'onderhoudapi',
     'inlees',
     'sorl.thumbnail',
 )

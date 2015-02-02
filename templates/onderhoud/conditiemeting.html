@@ -6,8 +6,18 @@
 {% endblock %}
 
 {% block content %}
-
+<div class="screen-container">
 <h1>Conditiemetingrapport {{ cm.scenario.complex }}</h1>
+
+<img src="/media/{{ cm.scenario.complex.foto }}" width="400px">
+
+<ul>
+    <li>Uitgevoerd door: <strong>{{ cm.uitvoerder }}</strong></li>
+    <li>Datum: <strong>{{ cm.datum }}</strong></li>
+
+</ul>
+
+
 
 <h2>Conditiemeting methodiek</h2>
 <p class="plain">
@@ -369,7 +379,7 @@ De inspecteur hanteert een genormeerde tabel om voor ieder bouwkundig element de
       </a>
       {% for f in cd.conditiefoto_set.all|slice:":5" %}
         {% thumbnail f.foto "240x240" crop="center" as im %}
-        <a class="img-tile" href="#">
+        <a class="img-tile" href="{{ f.foto.url }}">
           <img src="{{ im.url }}">
         </a>
         {% endthumbnail %}
@@ -378,5 +388,13 @@ De inspecteur hanteert een genormeerde tabel om voor ieder bouwkundig element de
     {% endfor %}
 {% endfor %}
 </div>
+</div>
 
+    <script>
+    $('.img-tile').colorbox({
+        rel: "gal",
+        maxWidth: "95%",
+        maxHeight: "95%"
+    });
+    </script>
 {% endblock %}

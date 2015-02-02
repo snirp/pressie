@@ -485,3 +485,6 @@ class Conditiefoto(models.Model):
     foto = models.ImageField(upload_to='images')
     conditiedeel = models.ForeignKey(Conditiedeel)
 
+    def get_absolute_url(self):
+        from django.core.urlresolvers import reverse
+        return reverse('onderhoud.views.conditiefoto', args=[str(self.id)])
