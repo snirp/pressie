@@ -4,6 +4,9 @@ static/
 .idea/
 venv/
 
+# This file contains secret information:
+pressie/settings_local.py
+
 #### github boilerplate ###
 
 # Byte-compiled / optimized / DLL files

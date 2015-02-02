@@ -3,12 +3,13 @@ from django.contrib import admin
 from pressie import settings
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'pressie.views.home', name='home'),
-    url(r'^stam/', include('stam.urls')),
-    url(r'^gebouw/', include('gebouw.urls')),
+    url(r'^$', 'onderhoud.views.home_page', name='home'),
+    url(r'^onderhoud/', include('onderhoud.urls')),
+    url(r'^onderhoudapi/', include('onderhoudapi.urls')),
+    url(r'^inlees/', include('inlees.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
+
 
 if settings.DEBUG:
     urlpatterns += patterns('django.views.static',

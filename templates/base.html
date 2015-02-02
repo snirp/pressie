@@ -3,13 +3,22 @@
 <html>
 <head>
   <meta charset=utf-8>
-  <title>Conditie</title>
+  <title>{% block title %}Conditie{% endblock %}</title>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='http://fonts.googleapis.com/css?family=Roboto:100,300,400,700' rel='stylesheet' type='text/css'>
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href={% static "css/style.css" %}>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src={% static "js/gritty.js" %}></script>
+  <script src={% static "js/begrotingparser.js" %}></script>
+  <link href={% static 'css/gritty.css' %} rel='stylesheet' type='text/css'><!--TODO add to static Remove redundancy-->
   {% block extrahead %}{% endblock %}
+
 </head>
 <body>
 <div class="container">

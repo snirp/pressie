@@ -1,29 +1,27 @@
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# Default settings for quick start (not for production)
+# Recommended to use a server-specific settings_local.py file,
+# which also contains secret information for production and development.
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates',),)
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 MEDIA_URL = "/media/"
 
+STATIC_URL = '/static/'
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
+SECRET_KEY = 'MyGoodFriend,ThisIsNotTheSecretKeyYouAreLookingFor'
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'zn6-(-ec*##h05a3o(_-6f2vfqivth%n3q-@z-+vtgc09j26v('
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
 TEMPLATE_DEBUG = True
 
+THUMBNAIL_DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
-# Application definition
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -33,8 +31,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.humanize',
-    'stam',
-    'gebouw',
+    'rest_framework',
+    'onderhoud',
+    'inlees',
     'sorl.thumbnail',
 )
 
@@ -52,23 +51,16 @@ ROOT_URLCONF = 'pressie.urls'
 
 WSGI_APPLICATION = 'pressie.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'pressie_db',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'ENGINE': '',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
-
-# Internationalization
-# https://docs.djangoproject.com/en/1.7/topics/i18n/
 
 LANGUAGE_CODE = 'nl-NL'
 
@@ -81,7 +73,11 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
 
-STATIC_URL = '/static/'
+# This import should stay at the bottom as to override the general setttings.
+# Local settings contain secret information and settings specific to the server.
+# These should never be part of the repository.
+try:
+    from .settings_local import *
+except Exception:
+    pass

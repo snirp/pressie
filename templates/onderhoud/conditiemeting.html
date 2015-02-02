@@ -1,0 +1,382 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load humanize %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block content %}
+
+<h1>Conditiemetingrapport {{ cm.scenario.complex }}</h1>
+
+<h2>Conditiemeting methodiek</h2>
+<p class="plain">
+De conditiemeting is uitgevoerd conform de NEN 2767 norm. Hiermee wordt op een zespuntsschaal de conditie van de
+bouwkundige elementen vastgelegd. Onderstaande tabel geeft een overzicht van de verschillende conditiescores.
+</p>
+<table class="conditie-table index-table">
+  <tr>
+    <th class="vakjes">Conditie</th>
+    <th>Kwalificatie</th>
+    <th>Beschrijving</th>
+    <th>Score</th>
+  </tr>
+  <tr>
+    <td class="conditie conditie1">
+      <div class="vak vak0"></div>
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+      <div class="vak vak4"></div>
+      <div class="vak vak5"></div>
+    </td>
+    <td>Zeer goed</td>
+    <td>Vergelijkbaar met nieuwstaat.</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td class="conditie conditie2">
+      <div class="vak vak0"></div>
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+      <div class="vak vak4"></div>
+      <div class="vak vak5"></div>
+    </td>
+    <td>Goed</td>
+    <td>Beperkte veroudering.</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td class="conditie conditie3">
+      <div class="vak vak0"></div>
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+      <div class="vak vak4"></div>
+      <div class="vak vak5"></div>
+    </td>
+    <td>Redelijk</td>
+    <td>Beperkte schade of onderhoudsbehoefte.</td>
+    <td>3</td>
+  </tr>
+  <tr>
+    <td class="conditie conditie4">
+      <div class="vak vak0"></div>
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+      <div class="vak vak4"></div>
+      <div class="vak vak5"></div>
+    </td>
+    <td>Matig</td>
+    <td>Duidelijke schade en onderhoudsbehoefte.</td>
+    <td>4</td>
+  </tr>
+  <tr>
+    <td class="conditie conditie5">
+      <div class="vak vak0"></div>
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+      <div class="vak vak4"></div>
+      <div class="vak vak5"></div>
+    </td>
+    <td>Slecht</td>
+    <td>Grote schade en grote onderhoudsbehoefte.</td>
+    <td>5</td>
+  </tr>
+  <tr>
+    <td class="conditie conditie6">
+      <div class="vak vak0"></div>
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+      <div class="vak vak4"></div>
+      <div class="vak vak5"></div>
+    </td>
+    <td>Zeer slecht</td>
+    <td>Grote schade, vervangen is noodzakelijk.</td>
+    <td>6</td>
+  </tr>
+</table>
+
+<p class="plain">
+De inspecteur hanteert een genormeerde tabel om voor ieder bouwkundig element de gebreken vast te leggen. Voor
+  elk gebrek heeft hij de "ernst", "intensiteit" en "omvang" bepaald. Zie hiervoor ook onderstaande overzichten.
+</p>
+
+<table class="ernst-table index-table">
+  <tr>
+    <th class="vakjes">Ernst</th>
+    <th>Kwalificatie</th>
+    <th>Beschrijving</th>
+  </tr>
+  <tr>
+    <td class="ernst ernst1">
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+    </td>
+    <td>Gering</td>
+    <td>Veroudering, vervuiling en onderhoud.</td>
+  </tr>
+  <tr>
+    <td class="ernst ernst2">
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+    </td>
+    <td>Serieus</td>
+    <td>Constructief of werking, van secundair belang.</td>
+  </tr>
+  <tr>
+    <td class="ernst ernst3">
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+    </td>
+    <td>Ernstig</td>
+    <td>Constructief of werking, van primair belang.</td>
+  </tr>
+</table>
+
+<table class="intensiteit-table index-table">
+  <tr>
+    <th class="vakjes">Intensiteit</th>
+    <th>Kwalificatie</th>
+    <th>Beschrijving</th>
+  </tr>
+  <tr>
+    <td class="intensiteit intensiteit1">
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+    </td>
+    <td>Laag</td>
+    <td>In beginstadium van gebrek-ontwikkeling.</td>
+  </tr>
+  <tr>
+    <td class="intensiteit intensiteit2">
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+    </td>
+    <td>Midden</td>
+    <td>Gebrek manifesteert zich duidelijk.</td>
+  </tr>
+  <tr>
+    <td class="intensiteit intensiteit3">
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+    </td>
+    <td>Hoog</td>
+    <td>Gebrekontwikkeling in eindstadium.</td>
+  </tr>
+</table>  
+
+<table class="index-table omvang-table">
+  <tr>
+    <th class="vakjes">Omvang</th>
+    <th>Kwalificatie</th>
+  </tr>
+  <tr>
+    <td class="omvang omvang0">
+      <div class="vak vak0"></div>
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+      <div class="vak vak4"></div>
+    </td>
+    <td>
+      < 2%
+    </td>
+  </tr>
+  <tr>
+    <td class="omvang omvang1">
+      <div class="vak vak0"></div>
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+      <div class="vak vak4"></div>
+    </td>
+    <td>
+      2% tot 10%
+    </td>
+  </tr>
+    <tr>
+    <td class="omvang omvang2">
+      <div class="vak vak0"></div>
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+      <div class="vak vak4"></div>
+    </td>
+    <td>
+      10% tot 30%
+    </td>
+  </tr>
+    <tr>
+    <td class="omvang omvang3">
+      <div class="vak vak0"></div>
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+      <div class="vak vak4"></div>
+    </td>
+    <td>
+      30% tot 70%
+    </td>
+  </tr>
+  <tr>
+    <td class="omvang omvang4">
+      <div class="vak vak0"></div>
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+      <div class="vak vak4"></div>
+    </td>
+    <td>
+      > 70%
+    </td>
+  </tr>
+</table>
+  
+<h2>Conditiemeting algemeen</h2>
+
+{% for cg in cm.conditiegroep_set.all %}
+<div class="row">
+  <div class="col col-1-2">
+    <h4>{{ cg }}</h4>
+    <p>{{ cg.scenariogroep.complexgroep.beschrijving }}</p>
+  </div>
+  <div class="col col-1-2">
+    <div class="conditie conditie{{ cg.conditie }}">
+      <div class="vak vak0"></div>
+      <div class="vak vak1"></div>
+      <div class="vak vak2"></div>
+      <div class="vak vak3"></div>
+      <div class="vak vak4"></div>
+      <div class="vak vak5"></div>
+    </div>
+    <p class="conditie-bevinding">{{ cg.bevinding }}</p>
+  </div>
+</div>
+
+    {% if cg.conditiedeel_set.all %}
+    <table class="table conditiegroep-table">
+      <thead>
+        <tr>
+          <th>deel</th>
+          <th>hvh</th>
+          <th></th>
+          <th>jaar</th>
+          <th>conditie</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cd in cg.conditiedeel_set.all %}
+        <tr>
+          <td>{{ cd }}</td>
+          <td>{{ cd.deel.hvh }}</td>
+          <td>{{ cd.deel.get_eenheid }}</td>
+          <td>{{ cd.deel.complexdeel.onderhoudsjaar }}</td>
+          <td class="conditie conditie{{ cd.conditiescore }}">
+            <div class="vak vak0"></div>
+            <div class="vak vak1"></div>
+            <div class="vak vak2"></div>
+            <div class="vak vak3"></div>
+            <div class="vak vak4"></div>
+            <div class="vak vak5"></div>
+          </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {%  endif %}
+{% endfor %}
+
+<h2>Uitgelichte gebreken</h2>
+
+{% for cg in cm.conditiegroep_set.all %}
+  {% for cd in cg.conditiedeel_set.all %}
+    {% if cd.conditiescore > 2 %}
+      <div class="container conditiedeel">
+        <table class="table conditiedeel-table">
+          <tr>
+            <th class="conditie{{ cd.conditiescore }}">
+              <div class="vak vak-enkel"></div>
+              <strong>{{ cd.conditiegroep }} - {{ cd }}: {{ cd.deel.hvh }} {{ cd.deel.get_eenheid }}</strong></th>
+            <th>ernst</th>
+            <th>intensiteit</th>
+            <th>omvang</th>
+          </tr>
+        {% for g in cd.gebrek_set.all %}
+          <tr>
+            <td class="gebrek">
+              {{ g }}
+            </td>
+            <td class="ernst ernst{{ g.nengebrek.gebrektype.ernst }}">
+              <div class="vak vak1"></div>
+              <div class="vak vak2"></div>
+              <div class="vak vak3"></div>
+            </td>
+            <td class="intensiteit intensiteit{{ g.intensiteit }}">
+              <div class="vak vak1"></div>
+              <div class="vak vak2"></div>
+              <div class="vak vak3"></div>
+            </td>
+            <td class="omvang omvang{{ g.omvang }}">
+              <div class="vak vak0"></div>
+              <div class="vak vak1"></div>
+              <div class="vak vak2"></div>
+              <div class="vak vak3"></div>
+              <div class="vak vak4"></div>
+            </td>
+          </tr>
+        {% endfor %}
+        </table>
+        <div class="conditie-fotos">
+          {% for f in cd.conditiefoto_set.all|slice:":5" %}
+            {% thumbnail f.foto "240x240" crop="center" as im %}
+              <img src="{{ im.url }}">
+            {% endthumbnail %}
+          {% endfor %}
+        </div>
+      </div>
+
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+
+
+<div class="tile-container">
+{% for cg in cm.conditiegroep_set.all %}
+  <div class="tile">
+    <div class='tile-content'>
+      <div>
+        <span>{{ cg }}</span>
+      </div>
+    </div>
+  </div>
+  {% for cd in cg.conditiedeel_set.all %}
+      <a class="tile tile-cs{{ cd.conditiescore }}" href="#">
+        <div class='tile-content'>
+          <div>
+            <span>{{ cd }}</span>
+          </div>
+        </div>
+      </a>
+      {% for f in cd.conditiefoto_set.all|slice:":5" %}
+        {% thumbnail f.foto "240x240" crop="center" as im %}
+        <a class="img-tile" href="#">
+          <img src="{{ im.url }}">
+        </a>
+        {% endthumbnail %}
+      {% endfor %}
+
+    {% endfor %}
+{% endfor %}
+</div>
+
+{% endblock %}

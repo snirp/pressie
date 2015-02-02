@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block extrahead %}
+
+
+
+{% endblock %}
+
+{% block content %}
+<div id="print-header">
+    Meerjaren onderhoudsbegroting van {{ scenario.complex }}
+</div>
+
+<div id="begroting-controls">
+    <ul class="input-list">
+        <li>
+            <label for="input-btw">Inclusief BTW</label>
+            <input type="checkbox" name="input-btw" id="input-btw">
+        </li>
+        <li>
+            <label for="input-horizon">Horizon</label>
+            <input type="text" name="input-horizon" id="input-horizon" value="">
+        </li>
+        <li>
+            <label for="input-detail">Detailjaren</label>
+            <input type="text" name="input-detail" id="input-detail" value="">
+        </li>
+    </ul>
+</div>
+
+
+
+<div id="begroting"></div>
+
+<div id="mjob"></div>
+
+
+<script>
+
+
+var $promiseScenario = $.getJSON("/onderhoudapi/scenario/{{ scenario.pk }}/.json");
+
+$promiseScenario.done(buildGrid);
+$promiseScenario.fail(function() { console.log( "XMLhttpRequest failed" ); });
+
+function buildGrid(data, success, obj) {
+    buildScenario(data);
+}
+
+
+/*
+var data = {"naam":"begroting 51001","start":2015,"scenariogroepen":[{"naam":"Algemene ruimten","delen":[{"naam":"Afwerking bordessen beton","hvh":146.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":8.0,"eh":"%","naam":"Trapafw.laag bovenzijde herstel","ehprijs_excl":"37.68","prijs_excl":440.1024,"btw_percentage":0.209925690021231,"start":2022,"cyclus":12,"eind":null},{"hoeveelheid":100.0,"eh":"%","naam":"Trapafw.laag, bovenz. vervangen","ehprijs_excl":"81.37","prijs_excl":11880.02,"btw_percentage":0.21002826594568,"start":2022,"cyclus":24,"eind":null}]},{"naam":"Afwerklaag binnenwand","hvh":510.58,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":8.0,"eh":"%","naam":"Stucwerk herstellen","ehprijs_excl":"35.21","prijs_excl":1438.2017440000002,"btw_percentage":0.210167566032377,"start":2025,"cyclus":12,"eind":null},{"hoeveelheid":100.0,"eh":"%","naam":"Wandafwerking vervangen","ehprijs_excl":"26.22","prijs_excl":13387.4076,"btw_percentage":0.210144927536232,"start":2050,"cyclus":50,"eind":null}]},{"naam":"Balustrades hekken","hvh":165.4,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Balustrade/hek vervangen","ehprijs_excl":"227.01","prijs_excl":37547.454,"btw_percentage":0.209990749306198,"start":2050,"cyclus":50,"eind":null}]},{"naam":"Bekleding vloer tegelwerk","hvh":2062.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":8.0,"eh":"%","naam":"Vloerbekleding, tegels herstellen","ehprijs_excl":"18.24","prijs_excl":3008.8704000000002,"btw_percentage":0.209978070175439,"start":2025,"cyclus":12,"eind":null},{"hoeveelheid":100.0,"eh":"%","naam":"Vloerbekleding, tegels vervangen","ehprijs_excl":"132.77","prijs_excl":273771.74,"btw_percentage":0.210062514122166,"start":2032,"cyclus":40,"eind":null}]},{"naam":"Binnendeuren gemeenschappelijk","hvh":200.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Binnendeur vervangen","ehprijs_excl":"528.19","prijs_excl":105638.0,"btw_percentage":0.210000189325811,"start":2050,"cyclus":50,"eind":null},{"hoeveelheid":8.0,"eh":"%","naam":"Binnendeur, gemeensch. herstellen","ehprijs_excl":"74.77","prijs_excl":1196.32,"btw_percentage":0.209977263608399,"start":2025,"cyclus":12,"eind":null}]},{"naam":"Binnenkozijnen hout","hvh":1274.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Binnenkozijn hout vervangen","ehprijs_excl":"80.00","prijs_excl":101920.0,"btw_percentage":0.21,"start":2050,"cyclus":60,"eind":null},{"hoeveelheid":2.0,"eh":"%","naam":"Kozijn, hout herstellen","ehprijs_excl":"130.00","prijs_excl":3312.4,"btw_percentage":0.21,"start":2030,"cyclus":12,"eind":null}]},{"naam":"Leuningen","hvh":184.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Leuning vervangen","ehprijs_excl":"26.71","prijs_excl":4914.64,"btw_percentage":0.210033695245226,"start":2050,"cyclus":50,"eind":null}]},{"naam":"Plafondafwerking","hvh":2062.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Plafondafw. vervangen","ehprijs_excl":"75.19","prijs_excl":155041.78,"btw_percentage":0.210001329964091,"start":2032,"cyclus":40,"eind":null}]},{"naam":"Schilderwerk binnen (m1) kozijnen/ramen hout","hvh":1274.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Schilderwerk kozijnen, ramen (m1) hout","ehprijs_excl":"6.51","prijs_excl":8293.74,"btw_percentage":0.0599078341013825,"start":2034,"cyclus":12,"eind":null}]},{"naam":"Schilderwerk binnen (m1) metaal","hvh":184.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Schilderwerk binnen constr./afw. (m1) metaal","ehprijs_excl":"14.12","prijs_excl":2598.08,"btw_percentage":0.0601983002832861,"start":2022,"cyclus":12,"eind":null}]},{"naam":"Schilderwerk binnen (m2) deuren hout","hvh":184.5,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Schilderwerk kozijnen, ramen, deuren (m2) hout","ehprijs_excl":"18.07","prijs_excl":3333.915,"btw_percentage":0.0597675705589375,"start":2022,"cyclus":12,"eind":null}]},{"naam":"Schilderwerk binnen (m2) metaal","hvh":165.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Schilderwerk binnen constr./afwerking metaal","ehprijs_excl":"40.00","prijs_excl":6600.0,"btw_percentage":0.06,"start":2022,"cyclus":12,"eind":null}]},{"naam":"Schilderwerk binnen (m2) steenachtig","hvh":507.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Schilderwerk binnen constr./afwerking steenachtig","ehprijs_excl":"25.16","prijs_excl":12756.12,"btw_percentage":0.0600158982511924,"start":2022,"cyclus":12,"eind":null}]},{"naam":"Trappen en bordessen beton","hvh":385.6,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":8.0,"eh":"%","naam":"Trap, beton herstellen","ehprijs_excl":"97.01","prijs_excl":2992.5644800000005,"btw_percentage":0.209978352747139,"start":2025,"cyclus":12,"eind":null},{"hoeveelheid":100.0,"eh":"%","naam":"Trap, beton vervangen","ehprijs_excl":"434.49","prijs_excl":167539.344,"btw_percentage":0.210016340997491,"start":2040,"cyclus":50,"eind":null}]},{"naam":"Verkeersvoorz. bellentableau","hvh":2.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[{"hoeveelheid":8.0,"eh":"%","naam":"Bellentableau herstellen","ehprijs_excl":"226.49","prijs_excl":36.2384,"btw_percentage":0.210031347962382,"start":2022,"cyclus":12,"eind":null},{"hoeveelheid":100.0,"eh":"%","naam":"Bellentableau vervangen","ehprijs_excl":"604.69","prijs_excl":1209.38,"btw_percentage":0.209991896674329,"start":2022,"cyclus":24,"eind":null}]},{"naam":"Verkeersvoorz. postkasten","hvh":177.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[{"hoeveelheid":8.0,"eh":"%","naam":"Postkast herstellen","ehprijs_excl":"70.98","prijs_excl":1005.0768,"btw_percentage":0.209918286841364,"start":2022,"cyclus":12,"eind":null},{"hoeveelheid":100.0,"eh":"%","naam":"Postkast vervangen","ehprijs_excl":"63.80","prijs_excl":11292.6,"btw_percentage":0.210031347962382,"start":2022,"cyclus":24,"eind":null}]},{"naam":"Verlichting standaard","hvh":40.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[{"hoeveelheid":8.0,"eh":"%","naam":"Verlichting standaard herstellen","ehprijs_excl":"113.14","prijs_excl":362.048,"btw_percentage":0.210005303164221,"start":2020,"cyclus":12,"eind":null},{"hoeveelheid":100.0,"eh":"%","naam":"Verlichting standaard vervangen","ehprijs_excl":"123.42","prijs_excl":4936.8,"btw_percentage":0.210014584346135,"start":2032,"cyclus":24,"eind":null}]}]},{"naam":"Onderbouw","delen":[{"naam":"Afwerklaag binnenwand stucwerk","hvh":299.65,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":12.0,"eh":"%","naam":"Stucwerk herstellen","ehprijs_excl":"35.21","prijs_excl":1266.08118,"btw_percentage":0.210167566032377,"start":2016,"cyclus":12,"eind":null},{"hoeveelheid":100.0,"eh":"%","naam":"Wandafwerking vervangen","ehprijs_excl":"26.22","prijs_excl":7856.822999999999,"btw_percentage":0.210144927536232,"start":2050,"cyclus":50,"eind":null}]},{"naam":"Balustrades panelen","hvh":100.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Balustrade/hek vervangen","ehprijs_excl":"227.01","prijs_excl":22701.0,"btw_percentage":0.209990749306198,"start":2050,"cyclus":50,"eind":null}]},{"naam":"Binnendeuren gemeenschappelijk","hvh":200.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Binnendeur vervangen","ehprijs_excl":"300.00","prijs_excl":60000.0,"btw_percentage":0.21,"start":2037,"cyclus":40,"eind":null},{"hoeveelheid":20.0,"eh":"%","naam":"Binnendeur, gemeensch. herstellen","ehprijs_excl":"74.77","prijs_excl":2990.8,"btw_percentage":0.209977263608399,"start":2025,"cyclus":12,"eind":null}]},{"naam":"Binnenkozijnen hout","hvh":1629.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Binnenkozijn hout vervangen","ehprijs_excl":"80.00","prijs_excl":130320.0,"btw_percentage":0.21,"start":2050,"cyclus":60,"eind":null},{"hoeveelheid":4.0,"eh":"%","naam":"Kozijn, hout herstellen","ehprijs_excl":"130.00","prijs_excl":8470.8,"btw_percentage":0.21,"start":2020,"cyclus":12,"eind":null}]},{"naam":"Plafondafwerking houten schroten-","hvh":121.5,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Plafondafw. vervangen","ehprijs_excl":"75.19","prijs_excl":9135.585,"btw_percentage":0.210001329964091,"start":2044,"cyclus":40,"eind":null}]},{"naam":"Schilderwerk binnen (m1) kozijnen/ramen hout","hvh":1630.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Schilderwerk kozijnen, ramen (m1) hout","ehprijs_excl":"6.51","prijs_excl":10611.3,"btw_percentage":0.0599078341013825,"start":2021,"cyclus":0,"eind":null}]},{"naam":"Schilderwerk binnen (m2) deuren hout","hvh":200.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Schilderwerk kozijnen, ramen, deuren (m2) hout","ehprijs_excl":"18.07","prijs_excl":3614.0,"btw_percentage":0.0597675705589375,"start":2021,"cyclus":10,"eind":null}]},{"naam":"Schilderwerk binnen (m2) hout","hvh":121.5,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Schilderwerk binnen constr./afwerking hout","ehprijs_excl":"30.00","prijs_excl":3645.0,"btw_percentage":0.06,"start":2021,"cyclus":10,"eind":null}]},{"naam":"Schilderwerk binnen (m2) steenachtig","hvh":778.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Schilderwerk binnen constr./afwerking steenachtig","ehprijs_excl":"25.16","prijs_excl":19574.48,"btw_percentage":0.0600158982511924,"start":2021,"cyclus":10,"eind":null}]},{"naam":"Verlichting standaard","hvh":237.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Verlichting standaard vervangen","ehprijs_excl":"123.42","prijs_excl":29250.54,"btw_percentage":0.210014584346135,"start":2032,"cyclus":24,"eind":null}]},{"naam":"Vloerafwerking beton","hvh":762.03,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":8.0,"eh":"%","naam":"Vloerbekleding, tegels herstellen","ehprijs_excl":"18.24","prijs_excl":1111.954176,"btw_percentage":0.209978070175439,"start":2020,"cyclus":12,"eind":null},{"hoeveelheid":100.0,"eh":"%","naam":"Vloerbekleding, tegels vervangen","ehprijs_excl":"132.77","prijs_excl":101174.7231,"btw_percentage":0.210062514122166,"start":2044,"cyclus":40,"eind":null}]}]},{"naam":"Gevels","delen":[{"naam":"Afv.regenwater hwa's","hvh":495.6,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Hwa vervangen","ehprijs_excl":"73.09","prijs_excl":36223.404,"btw_percentage":0.210015049938432,"start":2029,"cyclus":30,"eind":null}]},{"naam":"Buitendeuren hout","hvh":193.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[{"hoeveelheid":12.0,"eh":"%","naam":"Deur, hout herstellen","ehprijs_excl":"74.64","prijs_excl":1728.6624,"btw_percentage":0.210075026795284,"start":2020,"cyclus":7,"eind":null},{"hoeveelheid":50.0,"eh":"%","naam":"Deur, hout vervangen","ehprijs_excl":"904.43","prijs_excl":87277.495,"btw_percentage":0.209999668299371,"start":2034,"cyclus":30,"eind":null}]},{"naam":"Buitenwanden metselwerk","hvh":3979.43,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":10.0,"eh":"%","naam":"Buitenwand, steenach. reinigen","ehprijs_excl":"11.02","prijs_excl":4385.33186,"btw_percentage":0.20961887477314,"start":2016,"cyclus":20,"eind":null},{"hoeveelheid":5.0,"eh":"%","naam":"Metselwerk herstellen","ehprijs_excl":"130.00","prijs_excl":25866.295,"btw_percentage":0.21,"start":2016,"cyclus":20,"eind":null}]},{"naam":"Buitenwanden systeemwanden bekleding","hvh":0.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[]},{"naam":"Buitenwanden voegwerk","hvh":3979.43,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Voegwerk vervangen","ehprijs_excl":"40.00","prijs_excl":159177.19999999998,"btw_percentage":0.21,"start":2016,"cyclus":40,"eind":null}]},{"naam":"Elementen beton","hvh":1.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[]},{"naam":"Gevelkozijn panelen","hvh":3010.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":4.0,"eh":"%","naam":"Kozijn, paneel herstellen","ehprijs_excl":"48.53","prijs_excl":5843.012000000001,"btw_percentage":0.20997321244591,"start":2020,"cyclus":7,"eind":null},{"hoeveelheid":50.0,"eh":"%","naam":"Kozijn, paneel vervangen","ehprijs_excl":"150.68","prijs_excl":226773.4,"btw_percentage":0.209981417573666,"start":2034,"cyclus":30,"eind":null}]},{"naam":"Gevelkozijnen hout","hvh":8208.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":4.0,"eh":"%","naam":"Kozijn, hout herstellen","ehprijs_excl":"130.00","prijs_excl":42681.6,"btw_percentage":0.21,"start":2020,"cyclus":7,"eind":null},{"hoeveelheid":50.0,"eh":"%","naam":"Kozijn, hout vervangen","ehprijs_excl":"170.00","prijs_excl":697680.0,"btw_percentage":0.21,"start":2034,"cyclus":30,"eind":null}]},{"naam":"Kolom-/liggerconstructies beton betonband","hvh":660.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":12.0,"eh":"%","naam":"Kolom/liggerconstr., beton herstellen","ehprijs_excl":"21.45","prijs_excl":1698.8400000000001,"btw_percentage":0.20979020979021,"start":2025,"cyclus":14,"eind":null}]},{"naam":"Luifels bovenzijde afwerking rvs","hvh":75.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Luifel vervangen","ehprijs_excl":"379.03","prijs_excl":28427.25,"btw_percentage":0.210009761760283,"start":2025,"cyclus":30,"eind":null}]},{"naam":"Luifels houten panelen (transparant)","hvh":75.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Luifel herstellen","ehprijs_excl":"11.82","prijs_excl":886.5,"btw_percentage":0.209813874788494,"start":2025,"cyclus":14,"eind":null}]},{"naam":"Ramen hout","hvh":90.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[{"hoeveelheid":12.0,"eh":"%","naam":"Raam, hout herstellen","ehprijs_excl":"15.53","prijs_excl":167.724,"btw_percentage":0.209916291049581,"start":2020,"cyclus":7,"eind":null},{"hoeveelheid":50.0,"eh":"%","naam":"Raam, hout vervangen","ehprijs_excl":"564.64","prijs_excl":25408.8,"btw_percentage":0.210009917823746,"start":2034,"cyclus":30,"eind":null}]},{"naam":"Randafwerking buitenwand dilataties","hvh":383.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":50.0,"eh":"%","naam":"Dilatatie vervangen","ehprijs_excl":"21.37","prijs_excl":4092.355,"btw_percentage":0.210107627515208,"start":2020,"cyclus":14,"eind":null}]},{"naam":"Randafwerking buitenwand lekdorpels","hvh":106.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":50.0,"eh":"%","naam":"Waterslag herstellen","ehprijs_excl":"4.83","prijs_excl":255.99,"btw_percentage":0.209109730848861,"start":2020,"cyclus":14,"eind":null},{"hoeveelheid":100.0,"eh":"%","naam":"Waterslag vervangen","ehprijs_excl":"99.78","prijs_excl":10576.68,"btw_percentage":0.209961916215674,"start":2034,"cyclus":40,"eind":null}]},{"naam":"Randafwerking buitenwand lood-/zinkwerken","hvh":1241.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Bu.koz.rand, lood/zinkw. vervangen","ehprijs_excl":"78.19","prijs_excl":97033.79,"btw_percentage":0.210129172528456,"start":2025,"cyclus":28,"eind":null}]},{"naam":"Schilderwerk buiten (m1) kozijnen/ramen hout","hvh":8603.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Schilderwerk kozijnen, ramen (m1) hout","ehprijs_excl":"6.51","prijs_excl":56005.53,"btw_percentage":0.0599078341013825,"start":2020,"cyclus":7,"eind":null}]},{"naam":"Schilderwerk buiten (m1) steenachtig","hvh":2420.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Schilderwerk buiten constr./afw. (m1) steenachtig","ehprijs_excl":"14.72","prijs_excl":35622.4,"btw_percentage":0.0597826086956522,"start":2027,"cyclus":14,"eind":null}]},{"naam":"Schilderwerk buiten (m2) deuren hout","hvh":506.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Schilderwerk buiten constr./afwerking hout","ehprijs_excl":"35.00","prijs_excl":17710.0,"btw_percentage":0.06,"start":2020,"cyclus":7,"eind":null}]},{"naam":"Schilderwerk buiten (m2) hout","hvh":3010.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Schilderwerk buiten constr./afwerking hout","ehprijs_excl":"35.00","prijs_excl":105350.0,"btw_percentage":0.06,"start":2020,"cyclus":7,"eind":null}]},{"naam":"Schilderwerk buiten (m2) hout luifel (transparant","hvh":75.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Schilderwerk buiten constr./afwerking hout","ehprijs_excl":"35.00","prijs_excl":2625.0,"btw_percentage":0.06,"start":2020,"cyclus":7,"eind":null}]},{"naam":"Schilderwerk buiten (m2) metaal","hvh":1383.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Schilderwerk buiten constr./afwerking metaal","ehprijs_excl":"40.00","prijs_excl":55320.0,"btw_percentage":0.06,"start":2027,"cyclus":14,"eind":null}]},{"naam":"Schilderwerk buiten (m2) steenachtig bovenzijde balkons","hvh":1950.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Schilderwerk buiten constr./afwerking steenachtig","ehprijs_excl":"15.55","prijs_excl":30322.5,"btw_percentage":0.0598070739549839,"start":2027,"cyclus":14,"eind":null}]},{"naam":"Schilderwerk buiten (m2) steenachtig onderzijde balkons","hvh":1950.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Schilderwerk buiten constr./afwerking steenachtig","ehprijs_excl":"15.55","prijs_excl":30322.5,"btw_percentage":0.0598070739549839,"start":2027,"cyclus":14,"eind":null}]},{"naam":"Ventilatievoorz.","hvh":177.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Bu.koz.vent.voorz. vervangen","ehprijs_excl":"65.77","prijs_excl":11641.29,"btw_percentage":0.209974152349095,"start":2034,"cyclus":60,"eind":null},{"hoeveelheid":100.0,"eh":"%","naam":"Ventilatie reinigen","ehprijs_excl":"9.14","prijs_excl":1617.78,"btw_percentage":0.211159737417943,"start":2020,"cyclus":7,"eind":null}]},{"naam":"Verlichting standaard","hvh":1.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[]}]},{"naam":"Galerijen/balkons","delen":[{"naam":"Afv.regenwater galerij/balkondoorv.","hvh":1.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Galerij/balkondoorv. vervangen","ehprijs_excl":"109.94","prijs_excl":109.94,"btw_percentage":0.210023649263234,"start":2031,"cyclus":35,"eind":null}]},{"naam":"Borstweringen metaal","hvh":1414.88,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Balustradehek reinigen","ehprijs_excl":"8.00","prijs_excl":11319.04,"btw_percentage":0.06,"start":2020,"cyclus":7,"eind":null},{"hoeveelheid":100.0,"eh":"%","naam":"Borstw./hek/balustr., metaal vervangen","ehprijs_excl":"234.15","prijs_excl":331294.152,"btw_percentage":0.209993593850096,"start":2045,"cyclus":60,"eind":null},{"hoeveelheid":12.0,"eh":"%","naam":"Bu.wand borstw., staal herstellen","ehprijs_excl":"51.93","prijs_excl":8816.966208000002,"btw_percentage":0.209897939533988,"start":2020,"cyclus":14,"eind":null}]},{"naam":"Leuningen metaal","hvh":2.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[]},{"naam":"Randafwerking vloer dilataties","hvh":613.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":50.0,"eh":"%","naam":"Vloer randaansluiting vervangen","ehprijs_excl":"69.99","prijs_excl":21451.935,"btw_percentage":0.210030004286327,"start":2020,"cyclus":14,"eind":null}]},{"naam":"Trappen en bordessen beton","hvh":1.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[]},{"naam":"Vloerconstructie beton","hvh":1950.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":12.0,"eh":"%","naam":"Vloerconstructie, beton herstellen","ehprijs_excl":"169.55","prijs_excl":39674.7,"btw_percentage":0.210026540843409,"start":2020,"cyclus":14,"eind":null}]}]},{"naam":"Daken","delen":[{"naam":"Dakafwerking vlak ballast grind","hvh":1398.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Dakafw. ballast vervangen","ehprijs_excl":"13.35","prijs_excl":18663.3,"btw_percentage":0.210486891385768,"start":2022,"cyclus":20,"eind":null}]},{"naam":"Dakafwerking vlak bitumen","hvh":1398.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Dakbedekking bitumen vervangen","ehprijs_excl":"63.23","prijs_excl":88395.54,"btw_percentage":0.210026885971849,"start":2022,"cyclus":20,"eind":null}]},{"naam":"Dakafwerking vlak bitumen balkon","hvh":202.3,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Dakbedekking bitumen vervangen","ehprijs_excl":"63.23","prijs_excl":12791.429,"btw_percentage":0.210026885971849,"start":2022,"cyclus":20,"eind":null}]},{"naam":"Dakafwerking vlak tegelwerk","hvh":42.45,"eenheid":"m2","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Looppad vervangen","ehprijs_excl":"59.54","prijs_excl":2527.473,"btw_percentage":0.209942895532415,"start":2022,"cyclus":20,"eind":null}]},{"naam":"Randafwerking dak daktrimmen","hvh":221.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Daktrim vervangen","ehprijs_excl":"35.67","prijs_excl":7883.07,"btw_percentage":0.210260723296888,"start":2022,"cyclus":20,"eind":null}]},{"naam":"Randafwerking dak lood tpv dakopbouw","hvh":22.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Randafwerking lood vervangen","ehprijs_excl":"49.55","prijs_excl":1090.1,"btw_percentage":0.209889001009082,"start":2022,"cyclus":20,"eind":null}]}]},{"naam":"Terrein","delen":[{"naam":"Terrein verhardingen bestratingen","hvh":1.0,"eenheid":"m2","start":null,"eind":null,"maatregelen":[]}]},{"naam":"Algemene voorzieningen","delen":[{"naam":"Afv.gecombineerd horizontale leidingen","hvh":120.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[]},{"naam":"Afv.gecombineerd standleidingen","hvh":531.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Standleiding vervangen","ehprijs_excl":"130.26","prijs_excl":69168.06,"btw_percentage":0.20996468601259,"start":2016,"cyclus":0,"eind":null}]},{"naam":"Cv-ketel coll.-","hvh":2.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Warmtedistr.water vervangen","ehprijs_excl":"40000.00","prijs_excl":80000.0,"btw_percentage":0.21,"start":2023,"cyclus":21,"eind":null}]},{"naam":"Liften liftmachines kone","hvh":4.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Liftinstallatie herstellen","ehprijs_excl":"7500.00","prijs_excl":30000.0,"btw_percentage":0.21,"start":2015,"cyclus":24,"eind":null},{"hoeveelheid":100.0,"eh":"%","naam":"Liftinstallatie vervangen","ehprijs_excl":"38058.49","prijs_excl":152233.96,"btw_percentage":0.210000186554958,"start":2022,"cyclus":24,"eind":null}]},{"naam":"Ventilatie-installaties col. dakventilatoren","hvh":17.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Ventilatieinst.collectief vervangen","ehprijs_excl":"1500.00","prijs_excl":25500.0,"btw_percentage":0.21,"start":2027,"cyclus":18,"eind":null}]},{"naam":"Warmtedistributie water warmtemeters techem","hvh":485.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Warmtemeters vervangen","ehprijs_excl":"29.99","prijs_excl":14545.15,"btw_percentage":0.210070023341114,"start":2019,"cyclus":10,"eind":null}]},{"naam":"Water hydrofoor","hvh":3.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[{"hoeveelheid":100.0,"eh":"%","naam":"Hydrofoor vervangen","ehprijs_excl":"3000.00","prijs_excl":9000.0,"btw_percentage":0.21,"start":2020,"cyclus":15,"eind":null}]}]},{"naam":"Binnenwerk","delen":[{"naam":"Keukenmeubilering keukenblokken","hvh":177.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[]},{"naam":"Randafwerking binnenwand kitvoegen badkamer","hvh":1590.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[]},{"naam":"Randafwerking vloer kitvoegen badkamer","hvh":1860.0,"eenheid":"m","start":null,"eind":null,"maatregelen":[]},{"naam":"Sanitair combi badkamer en toilet","hvh":177.0,"eenheid":"st","start":null,"eind":null,"maatregelen":[]}]},{"naam":"Algemeen","delen":[{"naam":"Ongeriefvergoeding","hvh":177.0,"eenheid":"won","start":null,"eind":null,"maatregelen":[]}]}]}
+*/
+
+buildScenario(data);
+
+
+
+function buildScenario(data){
+    var btw = true;             // Default voor user input: btw
+    var detail = 5;             // Default voor user input: detail
+    var horizon = 25;           // Default voor user input: horizon
+    var vasteKolommen = [       // Eerste kolommen van gritty grid
+        new Column({
+            cellKey: 'groep',
+            thText: 'scenariogroep',
+            width: 10,
+            headClasses: ['left']
+        }),
+        new Column({
+            cellKey: 'deel',
+            thText: 'deel',
+            width: 18
+        }),
+        new Column({
+            cellKey: 'deelhvh',
+            contentType: 'number',
+            formatString: '0,000.0',
+            thText: 'hvh',
+            bodyClasses: ['right'],
+            width: 4,
+            filterOptions: numberFilters
+        }),
+        new Column({
+            cellKey: 'deeleh',
+            thText: '.',
+            bodyClasses: ['left', 'small-p-left'],
+            width: 1
+        }),
+        new Column({
+            cellKey: 'maatregel',
+            thText: 'maatregel',
+            width: 19
+        }),
+        new Column({
+            cellKey: 'uitvoerhvh',
+            contentType: 'number',
+            formatString: '0,000.',
+            thText: 'uitv',
+            bodyClasses: ['right'],
+            width: 4,
+            filterOptions: numberFilters
+        }),
+        new Column({
+            cellKey: 'uitvoereh',
+            thText: '.',
+            bodyClasses: ['left', 'small-p-left'],
+            width: 1
+        }),
+        new Column({
+            cellKey: 'ehprijs',
+            contentType: 'number',
+            thText: 'ehprijs',
+            formatString: '$ 0,000.00',
+            bodyClasses: ['right'],
+            width: 5,
+            filterOptions: numberFilters
+        }),
+        new Column({
+            cellKey: 'btwPerc',
+            contentType: 'number',
+            thText: 'btw',
+            formatString: '0 %',
+            bodyClasses: ['right'],
+            width: 3,
+            filterOptions: numberFilters,
+            hidden: true
+        }),
+        new Column({
+            cellKey: 'start',
+            contentType: 'number',
+            thText: 'start',
+            width: 3,
+            bodyClasses: ['right'],
+            filterOptions: numberFilters
+        }),
+        new Column({
+            cellKey: 'cyclus',
+            contentType: 'number',
+            thText: 'cycl',
+            width: 3,
+            bodyClasses: ['right'],
+            filterOptions: numberFilters
+        }),
+        new Column({
+            cellKey: 'eind',
+            contentType: 'number',
+            thText: 'eind',
+            width: 4,
+            bodyClasses: ['right'],
+            hidden: true
+        })
+    ];
+
+    var varKolommen = function(detailKolommen, restKolom) {
+        var result = [];
+        for (var i = 0; i < detailKolommen.length; i++) {
+            result.push(new Column({
+                cellKey: detailKolommen[i],
+                contentType: 'number',
+                formatString: '0,000.',
+                thText: detailKolommen[i],
+                bodyClasses: ['right'],
+                footClasses: ['right'],
+                total: true,
+                width: 4,
+                filterOptions: numberFilters
+                }));
+        }
+
+        if (restKolom) {
+            result.push(new Column({
+                cellKey: 'restBedrag',
+                contentType: 'number',
+                formatString: '0,000.',
+                thText: restKolom,
+                bodyClasses: ['right'],
+                footClasses: ['right'],
+                total: true,
+                width: 6,
+                filterOptions: numberFilters
+            }));
+        }
+        return result;
+    };
+
+    var totaalKolom = new Column({
+                cellKey: 'rijTotaal',
+                formatString: '0,000.',
+                contentType: 'number',
+                thText: 'totaal',
+                bodyClasses: ['strong', 'right'],
+                footClasses: ['right'],
+                total: true,
+                width: 6,
+                filterOptions: numberFilters
+            });
+
+    var g = new Gritty({
+        sorting: [1],
+        grouping: [0],
+        renderTarget: document.getElementById('mjob')
+    });
+
+    var updateGrid = function () {
+        var begroting = parseBegroting(data, horizon, detail, btw);
+        var columns = vasteKolommen.concat(varKolommen(begroting.detailKolommen, begroting.restKolom));
+        columns.push(totaalKolom);
+        g.set_rows(begroting.rows);
+        g.columns = columns;
+        g.renderGrid();
+    };
+
+    // The inputs
+    var $btw = $('#input-btw');
+    var $horizon = $('#input-horizon');
+    var $detail = $('#input-detail');
+    // Set to defaults
+    $btw.prop('checked', btw);
+    $horizon.val(horizon);
+    $detail.val(detail);
+
+    // Setter for horizon that handles edge cases
+    var set_horizon = function (horizonInput) {
+        horizonInput = parseInt(horizonInput);
+        if (horizonInput < detail) {
+            // Trying to set horizon smaller than current detail period...
+            detail = horizonInput;
+            $detail.val(horizonInput);
+        } else if (detail + 1 === horizonInput) {
+            // Only one detailjaar, would remain...
+            detail += 1;
+            $detail.val(detail);
+        }
+        horizon = horizonInput;
+        $horizon.val(horizon); // superfluous if handling user input...
+        updateGrid();
+    };
+
+    // Setter for detail that handles edge cases
+    var set_detail = function (detailInput) {
+        detailInput = parseInt(detailInput);
+        if (horizon < detailInput) {
+            horizon = detailInput;
+            $horizon.val(horizon);
+        } else if (detailInput + 1 === horizon) {
+            detailInput += 1;
+        }
+        detail = detailInput;
+        $detail.val(detail); // superfluous if handling user input...
+        updateGrid();
+        };
+
+    // Setter for BTW
+    var set_btw = function (btwInput) {
+        btw = btwInput;
+        updateGrid();
+    };
+
+    // Bind change events to the inputs
+    $btw.bind('change', function () { set_btw(this.checked); });
+    $horizon.bind('change', function () { set_horizon(this.value); });
+    $detail.bind('change', function () { set_detail(this.value); });
+
+    updateGrid();
+}
+
+</script>
+
+
+
+
+{% endblock %}
