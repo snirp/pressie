@@ -1,8 +1,8 @@
 # Project specific
-media/
-static/
-.idea/
-venv/
+/media
+/static
+/.idea
+/venv
 
 # This file contains secret information:
 pressie/settings_local.py

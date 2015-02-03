@@ -1,0 +1,171 @@
+
+/* default stylesheet for gritty */
+.gritty-table .right { text-align: right; }
+.gritty-table .left { text-align: left; }
+.gritty-table .center { text-align: center; }
+.gritty-table .upper { text-transform: uppercase; }
+.gritty-table .lower { text-transform: lowercase; }
+.gritty-table .cap { text-transform: capitalize; }
+.gritty-table .small-p-left { padding-left: 1px; }
+.gritty-table .small-p-right { padding-right: 1px; }
+.gritty-table.hide-grouped .grouped {display: none;}
+
+
+.gritty-table input, .gritty-table select {
+    display: block;
+    width: 100%;
+    margin: 4px 0;
+    -ms-box-sizing:content-box;
+    -moz-box-sizing:content-box;
+    box-sizing:content-box;
+    -webkit-box-sizing:content-box;
+    border: 1px solid;
+}
+
+
+.fa-unsorted, .fa-close {
+    color: lightgrey;
+}
+
+.filter-control-th {
+    z-index: 9;
+    position: absolute;
+    top: 4;
+    right: 0;
+}
+
+.filter-control-th > i {
+    padding-left: 3px;
+}
+
+.gritty-table {
+    border-collapse: collapse;
+    color: black;
+    width:100%;
+    margin: 10px inherit;
+}
+
+.gritty-table tbody tr {
+    border-top: 1px solid whitesmoke;
+}
+
+.gritty-table thead {
+    border-bottom: 1px solid whitesmoke;
+}
+
+.gritty-table thead tr td {
+    vertical-align: top;
+}
+
+.gritty-table .filter-group {
+    padding-top: 3px;
+    list-style-type: none;
+    color: dimgray;
+}
+
+.gritty-table .filter-group li {
+    margin-top: 8px;
+}
+
+.gritty-table .filter-group ul {
+    list-style-type: none;
+}
+
+.gritty-table .filter-group ul li {
+    padding: 2px 5px;
+    margin: 3px 0;
+    border: 1px solid dimgray;
+    border-radius: 2px;
+    background-color: whitesmoke;
+}
+
+.gritty-table tfoot {
+    border-top: 1px solid black;
+}
+
+.gritty-table th, .gritty-table td {
+    padding: 4px;
+    border: none;
+    font-size: 12px;
+}
+
+.gritty-table th, .gritty-table tfoot td {
+    font-weight: 600;
+    color: black;
+}
+
+/* Default setting for grouphead rows. */
+.gritty-table tr.grouphead {
+    color: #286fad;
+}
+.gritty-table tr.grouphead td {
+    padding: 8px 0 4px 100px;
+}
+/* Custom settings for first five levels */
+.gritty-table tr.grouplevel-0 td {
+    padding-left: 3px;
+    font-weight: 600;
+}
+.gritty-table tr.grouplevel-1 td {
+    padding-left: 20px;
+}
+.gritty-table tr.grouplevel-2 td { padding-left: 40px; }
+.gritty-table tr.grouplevel-3 td { padding-left: 60px; }
+.gritty-table tr.grouplevel-4 td { padding-left: 80px; }
+
+div.controlbar {
+    background-color: whitesmoke;
+}
+
+div.controlbar > span {
+    float: right;
+    padding-right: 2%;
+    font-size: 12px;
+    color: darkgray;
+    padding-top:8px;
+}
+
+div.controlbar ol {
+    list-style-type: none;
+    margin: 10px inherit;
+    padding-left: 3px;
+    height: 25px;
+}
+
+div.controlbar ol li {
+    display: inline-block;
+    padding: 2px 5px;
+    margin: 3px 5px;
+    font-size: 12px;
+    min-width: 120px;
+    background-color: white;
+    border: 1px solid grey;
+}
+
+ul.grid-controls {
+    list-style-type: none;
+    text-align: right;
+}
+
+ul.grid-controls li {
+    display: inline;
+    background-color: whitesmoke;
+    color: darkgray;
+    border-radius: 2px;
+    padding: 4px 6px;
+    font-size: 12px;
+    margin: 0 6px;
+}
+
+ul.grid-controls li.toggle-on {
+    display: inline;
+    background-color: dodgerblue;
+    color: white;
+}
+
+.sortable-placeholder {
+    width: 80px;
+    background-color: #eeece1;
+    border: 1px solid grey;
+    height: 15px;
+}

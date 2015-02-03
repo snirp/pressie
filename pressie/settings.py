@@ -8,6 +8,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates',),)
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = "/media/"
 
@@ -16,10 +17,8 @@ STATIC_URL = '/static/'
 SECRET_KEY = 'MyGoodFriend,ThisIsNotTheSecretKeyYouAreLookingFor'
 
 DEBUG = True
-
-TEMPLATE_DEBUG = True
-
-THUMBNAIL_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+THUMBNAIL_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['.conditie.org']
 
