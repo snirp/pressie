@@ -2,6 +2,7 @@ from fabric.api import *
 
 
 def deploy():
+    env.hosts = 'snirp@snirp.webfactional.com'
     project_dir = '~/webapps/conditie'
     django_dir = project_dir + '/pressie'
     with prefix('source ~/webapps/conditie/venv/bin/activate'):
