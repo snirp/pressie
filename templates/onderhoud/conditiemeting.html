@@ -7,18 +7,33 @@
 
 {% block content %}
 <div class="screen-container">
+<section id="voorblad">
+
 <h1>Conditiemetingrapport {{ cm.scenario.complex }}</h1>
 
-<img src="/media/{{ cm.scenario.complex.foto }}" width="400px">
 
-<ul>
-    <li>Uitgevoerd door: <strong>{{ cm.uitvoerder }}</strong></li>
-    <li>Datum: <strong>{{ cm.datum }}</strong></li>
+<dl class="prop-values">
+    <dt>Uitgevoerd door</dt>
+        <dd>{{ cm.uitvoerder }}</dd>
+    <dt>Datum</dt>
+        <dd>{{ cm.datum }}</dd>
+</dl>
 
-</ul>
+<img class="complex-mugshot" src="/media/{{ cm.scenario.complex.foto }}">
+
+
+<dl class="prop-values">
+    <dt>Naam</dt>
+        <dd>{{ cm.scenario.complex.naam }}</dd>
+    <dt>Code</dt>
+        <dd>{{ cm.scenario.complex.code }}</dd>
+</dl>
 
 
 
+</section>
+
+<section id="conditie-methodiek">
 <h2>Conditiemeting methodiek</h2>
 <p class="plain">
 De conditiemeting is uitgevoerd conform de NEN 2767 norm. Hiermee wordt op een zespuntsschaal de conditie van de
@@ -184,7 +199,7 @@ De inspecteur hanteert een genormeerde tabel om voor ieder bouwkundig element de
     <td>Hoog</td>
     <td>Gebrekontwikkeling in eindstadium.</td>
   </tr>
-</table>  
+</table>
 
 <table class="index-table omvang-table">
   <tr>
@@ -252,27 +267,41 @@ De inspecteur hanteert een genormeerde tabel om voor ieder bouwkundig element de
     </td>
   </tr>
 </table>
-  
+</section>
+
+
+<section id="samenvatting">
+    <h2>Samenvatting complex</h2>
+
+    {% for cg in cm.conditiegroep_set.all %}
+    <div class="row">
+      <div class="col col-1-2">
+        <h4>{{ cg }}</h4>
+        <p>{{ cg.scenariogroep.complexgroep.beschrijving }}</p>
+      </div>
+      <div class="col col-1-2">
+        <div class="conditie conditie{{ cg.conditie }}">
+          <div class="vak vak0"></div>
+          <div class="vak vak1"></div>
+          <div class="vak vak2"></div>
+          <div class="vak vak3"></div>
+          <div class="vak vak4"></div>
+          <div class="vak vak5"></div>
+        </div>
+        <p class="conditie-bevinding">{{ cg.bevinding }}</p>
+      </div>
+    </div>
+    {% endfor %}
+
+</section>
+
+<section id="conditie-algemeen">
 <h2>Conditiemeting algemeen</h2>
 
 {% for cg in cm.conditiegroep_set.all %}
 <div class="row">
-  <div class="col col-1-2">
+
     <h4>{{ cg }}</h4>
-    <p>{{ cg.scenariogroep.complexgroep.beschrijving }}</p>
-  </div>
-  <div class="col col-1-2">
-    <div class="conditie conditie{{ cg.conditie }}">
-      <div class="vak vak0"></div>
-      <div class="vak vak1"></div>
-      <div class="vak vak2"></div>
-      <div class="vak vak3"></div>
-      <div class="vak vak4"></div>
-      <div class="vak vak5"></div>
-    </div>
-    <p class="conditie-bevinding">{{ cg.bevinding }}</p>
-  </div>
-</div>
 
     {% if cg.conditiedeel_set.all %}
     <table class="table conditiegroep-table">
@@ -305,7 +334,8 @@ De inspecteur hanteert een genormeerde tabel om voor ieder bouwkundig element de
     </table>
     {%  endif %}
 {% endfor %}
-
+</section>
+<section id="conditie-uitgelicht">
 <h2>Uitgelichte gebreken</h2>
 
 {% for cg in cm.conditiegroep_set.all %}
@@ -358,7 +388,10 @@ De inspecteur hanteert een genormeerde tabel om voor ieder bouwkundig element de
     {% endif %}
   {% endfor %}
 {% endfor %}
+</section>
 
+<section id="conditie-tiles">
+<h2>Conditie-beelden</h2>
 
 <div class="tile-container">
 {% for cg in cm.conditiegroep_set.all %}
@@ -389,7 +422,7 @@ De inspecteur hanteert een genormeerde tabel om voor ieder bouwkundig element de
 {% endfor %}
 </div>
 </div>
-
+</section>
     <script>
     $('.img-tile').colorbox({
         rel: "gal",
