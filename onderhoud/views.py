@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.shortcuts import render
-from onderhoud.models import Scenario, Conditiemeting, Conditiefoto
+from onderhoud.models import Scenario, Conditiemeting, Conditiefoto, Complex
 from pressie import settings
 
 
@@ -22,3 +22,8 @@ def conditiemeting(request, pk):
 def conditiefoto(request, pk):
     cf = Conditiefoto.objects.get(pk=pk)
     return render_to_response('onderhoud/conditiefoto.html', {'cf': cf})
+
+
+def complex_list(request):
+    cx_list = Complex.objects.all()
+    return render_to_response('onderhoud/complex-list.html', {'cx_list': cx_list})

@@ -257,6 +257,50 @@ section {
   color: #286fad;
 }
 
+
+.complex-tile {
+    display: inline-block;
+    width: 280px;
+    border: 1px solid whitesmoke;
+    margin: 20px;
+}
+
+.complex-pasfoto {
+    display: inline-block;
+    height: 100px;
+    width: 100px;
+}
+
+.complex-info {
+    display: inline-block;
+    width: 170px;
+    vertical-align:top;
+}
+
+.complex-info {
+    padding: 5px;
+}
+
+.complex-info ul {
+    list-style-type: none;
+}
+
+.complex-info ul li {
+    margin-top: 5px;
+}
+
+.link-button {
+    display: block;
+    padding: 12px;
+    text-align: center;
+    margin-top: 12px;
+    background-color: dodgerblue;
+    color: white;
+    text-decoration: none;
+}
+
+
+
 .conditie-fotos {
   margin: 10px auto 0;
   max-width: 100%;

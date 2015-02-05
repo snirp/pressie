@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block content %}
+
+<div class="screen-container">
+
+{% for cx in cx_list %}
+<div class="complex-tile">
+
+{% thumbnail cx.foto "100x100" crop="center" as im %}
+  <img src="{{ im.url }}" class="complex-pasfoto">
+{% endthumbnail %}
+
+<div class="complex-info">
+    <ul>
+        <li>{{ cx }}</li>
+        <li>{{ cx.code }}</li>
+    </ul>
+</div>
+
+
+
+<a href="{{ cx.actueel_scenario.get_begroting_url }}" class="link-button">
+    begroting {{ cx.actueel_scenario }}
+</a>
+
+<a href="{{ cx.actueel_scenario.conditiemeting.get_absolute_url }}" class="link-button">
+    conditiemeting {{ cx.actueel_scenario.conditiemeting.datum }}
+</a>
+</div>
+
+{% endfor %}
+
+
+</div>
+
+{% endblock %}

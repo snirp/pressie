@@ -1,6 +1,14 @@
 # PYTHON 2 code
-
 from fabric.api import *
+
+prod_server = 'snirp@snirp.webfactional.com'
+
+
+def prod():
+    env.hosts = [prod_server]
+    env.remote_app_dir =    '~/webapps/conditie/pressie'
+    env.remote_apache_dir = '~/webapps/conditie/apache2'
+    env.remote_venv_dir =   '~/webapps/conditie/venv'
 
 
 def commit():
@@ -10,20 +18,27 @@ def commit():
     print "Changes have been pushed to remote repository..."
 
 
+def collectstatic():
+    require('hosts', provided_by=[prod])
+    with cd(env.remote_app_dir):
+        run("python manage.py collectstatic --noinput")
+
+
+def restart():
+    require("hosts", provided_by=[prod])
+    require("remote_apache_dir", provided_by=[prod])
+    with cd(env.remote_apache_dir):
+        run("bin/restart", pty=False)
+        # Will not work unless pty is set to False:
+        # http://docs.fabfile.org/en/1.4.3/faq.html#init-scripts-don-t-work
 
 
 def deploy():
-    env.hosts = 'snirp@snirp.webfactional.com'
-    project_dir = '~/webapps/conditie'
-    django_dir = project_dir + '/pressie'
-    with prefix('source ~/webapps/conditie/venv/bin/activate'):
-        with cd(django_dir):
-            run('eval $(ssh-agent)')
-            run('ssh-add ~/.ssh/id_rsa')
+    with prefix("source %s/bin/activate" % env.remote_venv_dir):
+        with cd(env.remote_app_dir):
             run('git pull origin master')
             run('pip install -r requirements.txt')
             run('python manage.py syncdb')
             run('python manage.py migrate')
-            run('python manage.py collectstatic --noinput')
-        with cd(project_dir):
-            run('apache2/bin/restart')
+        collectstatic()
+        restart()

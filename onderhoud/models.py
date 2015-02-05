@@ -180,6 +180,7 @@ class Complex(models.Model):
     foto = models.ImageField(upload_to='complex', null=True, blank=True)
     actueel_scenario = models.OneToOneField('Scenario', related_name="actueel", null=True, blank=True)
     admin = models.ForeignKey(User, null=True, blank=True, related_name="complexadmin")
+    gebruikers = models.ManyToManyField(User, null=True, blank=True)
 
     def __str__(self):
         return self.naam
@@ -233,6 +234,11 @@ class Scenario(models.Model):
 
     def __str__(self):
         return self.naam
+
+    def get_begroting_url(self):
+        return reverse('begroting', args=(self.id,))
+
+
 
     """
     def begroting_bereik(self, bereik=25):
