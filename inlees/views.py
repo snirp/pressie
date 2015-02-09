@@ -67,10 +67,10 @@ def convert_date(val):
 # START MULTI SCENARIO UPLOAD
 
 
-def import_multi_data(uploadfile):
+def import_data(uploadfile):
     zf = zipfile.ZipFile(uploadfile, 'r')
     # Dump the CSV contents to tables for further processing
-    data = StringIO(zf.read("import_deel.csv").decode("utf-8"))
+    data = StringIO(zf.read("import_scenario.csv").decode("utf-8"))
     reader = csv.reader(data)
     for r in reader:
         imps = ImportScenario(
@@ -148,7 +148,7 @@ def import_multi_data(uploadfile):
         impg.save()
 
 
-def build_multi_scenario():
+def build_scenarios():
     # TODO: set database from request
     dbase = StravisDatabase.objects.get(pk=1)
 
@@ -184,8 +184,8 @@ def build_multi_scenario():
             ).scenario
         except ScenarioLink.DoesNotExist:
             sc = Scenario.objects.create(
-                naam=iscen.naam,
-                start=iscen.start,
+                naam=iscen.sc_naam,
+                start=iscen.sc_start,
                 complex=cx
             )
             sc.save()
@@ -206,9 +206,9 @@ def build_multi_scenario():
         except ConditiemetingLink.DoesNotExist:
             # was er een scenario in de export?
             if iscen.cm_stravis:
-                cm = Conditiemeting.object.create(
+                cm = Conditiemeting.objects.create(
                     datum=iscen.cm_datum,
-                    complex=cx
+                    scenario=sc
                 )
                 cm.save()
                 cm_link = ConditiemetingLink.objects.create(
@@ -381,20 +381,13 @@ def build_multi_scenario():
         m.save()
 
     # Clear tables after import is processed
-    ImportScenario.objects.all.delete()
+    ImportScenario.objects.all().delete()
     ImportDeel.objects.all().delete()
     ImportMaatregel.objects.all().delete()
     ImportGebrek.objects.all().delete()
 
 
-# END MULTI SCENARIO
-
-
-
-
-
-
-def import_data(uploadfile):
+def import_single_data(uploadfile):
     zf = zipfile.ZipFile(uploadfile, 'r')
     # Dump the CSV contents to tables for further processing
 
@@ -453,7 +446,7 @@ def import_data(uploadfile):
         impg.save()
 
 
-def build_scenario(s):
+def build_single_scenario(s):
     for ideel in ImportDeel.objects.all():
         # # # Complexgroep # # #
         hg = VertaalHoofdgroep.objects.get(hoofdgroep_stravis=ideel.hoofdgroep_stravis).hoofdgroep
@@ -601,16 +594,30 @@ def build_scenario(s):
 
 
 
-def zip_upload(request, pk):
+def singlezip_upload(request, pk):
     s = Scenario.objects.get(pk=pk)
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            import_data(request.FILES['file'])
-            build_scenario(s)
+            import_single_data(request.FILES['file'])
+            build_single_scenario(s)
             return HttpResponseRedirect('/upload_successful')
     else:
         form = UploadFileForm()
     context = {'form': form, 's': s}
+    context.update(csrf(request))
+    return render_to_response('inlees/uploadsingle.html', context)
+
+
+def zip_upload(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            import_data(request.FILES['file'])
+            build_scenarios()
+            return HttpResponseRedirect('/upload_successful')
+    else:
+        form = UploadFileForm()
+    context = {'form': form}
     context.update(csrf(request))
     return render_to_response('inlees/upload.html', context)
