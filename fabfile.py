@@ -28,10 +28,9 @@ def restart():
     require("hosts", provided_by=[prod])
     require("remote_apache_dir", provided_by=[prod])
     with cd(env.remote_apache_dir):
-        run("bin/restart", pty=False)
         # Will not work unless pty is set to False:
         # http://docs.fabfile.org/en/1.4.3/faq.html#init-scripts-don-t-work
-
+        run("bin/restart", pty=False)
 
 def deploy():
     with prefix("source %s/bin/activate" % env.remote_venv_dir):

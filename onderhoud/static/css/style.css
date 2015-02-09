@@ -261,7 +261,7 @@ section {
 .complex-tile {
     display: inline-block;
     width: 280px;
-    border: 1px solid whitesmoke;
+    background-color: whitesmoke;
     margin: 20px;
 }
 
@@ -368,17 +368,17 @@ section {
   color: white;
   border:none;
 }
-.tile-cs2, .conditie2 .vak-enkel, .conditie2 .vak1, .omvang1 .vak1, .ernst1 .vak1, .intensiteit1 .vak1 {
+.tile-cs2, .conditie2 .vak-enkel, .conditie2 .vak1, .omvang1 .vak1, .ernst1 .vak1, .intensiteit0 .vak0 {
   background-color: green;
   color: white;
   border:none;
 }
-.tile-cs3, .conditie3 .vak-enkel, .conditie3 .vak2, .omvang2 .vak2, .ernst2 .vak2, .intensiteit2 .vak2{
+.tile-cs3, .conditie3 .vak-enkel, .conditie3 .vak2, .omvang2 .vak2, .ernst2 .vak2, .intensiteit1 .vak1{
   background-color: #dab500;
   color: white;
   border:none;
 }
-.tile-cs4, .conditie4 .vak-enkel, .conditie4 .vak3, .omvang3 .vak3, .ernst3 .vak3, .intensiteit3 .vak3 {
+.tile-cs4, .conditie4 .vak-enkel, .conditie4 .vak3, .omvang3 .vak3, .ernst3 .vak3, .intensiteit2 .vak2 {
   background-color: #ff7b00;
   color: white;
   border:none;

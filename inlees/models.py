@@ -1,23 +1,6 @@
 from django.db import models
-from onderhoud.models import Hoofdgroep, Element, Nengebrek, Activiteit, Gebrektype, Conditiedeel, Deel
-
-
-class ConditiedeelLink(models.Model):
-    # Stravis sleutel voor synchronisatie en import
-    conditiedeel = models.OneToOneField(Conditiedeel)
-    deel_stravis = models.PositiveIntegerField()
-
-    def __str__(self):
-        return self.conditiedeel.__str__()
-
-
-class DeelLink(models.Model):
-    # Stravis sleutel voor synchronisatie en import
-    deel = models.OneToOneField(Deel)
-    scenariodeel_stravis = models.PositiveIntegerField()
-
-    def __str__(self):
-        return self.deel.__str__()
+from onderhoud.models import Hoofdgroep, Element, Nengebrek, Activiteit, Gebrektype, Conditiedeel, Deel, Complex, \
+    Conditiemeting, Scenario
 
 
 class StravisDatabase(models.Model):
@@ -25,6 +8,56 @@ class StravisDatabase(models.Model):
 
     def __str__(self):
         return self.naam
+
+
+# # # Stravis sleutels voor synchronisatie en import # # #
+
+class DeelcomplexLink(models.Model):
+    complex = models.OneToOneField(Complex)
+    database = models.ForeignKey(StravisDatabase)
+    deelcomplex_stravis = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.complex.__str__()
+
+
+class ScenarioLink(models.Model):
+    scenario = models.OneToOneField(Scenario)
+    database = models.ForeignKey(StravisDatabase)
+    scenario_stravis = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.scenario.__str__()
+
+
+class ConditiemetingLink(models.Model):
+    conditiemeting = models.OneToOneField(Conditiemeting)
+    database = models.ForeignKey(StravisDatabase)
+    conditiemeting_stravis = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.conditiemeting.__str__()
+
+
+class ConditiedeelLink(models.Model):
+    conditiedeel = models.OneToOneField(Conditiedeel)
+    database = models.ForeignKey(StravisDatabase)
+    deel_stravis = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.conditiedeel.__str__()
+
+
+class DeelLink(models.Model):
+    deel = models.OneToOneField(Deel)
+    database = models.ForeignKey(StravisDatabase)
+    scenariodeel_stravis = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.deel.__str__()
+
+
+# # # Vertaaltabellen # # #
 
 
 class VertaalHoofdgroep(models.Model):
@@ -87,6 +120,23 @@ class VertaalActiviteit(models.Model):
         verbose_name_plural = 'Vertaal activiteiten'
 
 
+class ImportScenario(models.Model):
+    sc_stravis = models.PositiveIntegerField()
+    sc_start = models.PositiveIntegerField()
+    sc_naam = models.CharField(max_length=80)
+    dc_stravis = models.PositiveIntegerField()
+    dc_code = models.CharField(max_length=20)
+    dc_naam = models.CharField(max_length=60)
+    dc_functie = models.CharField(max_length=40, null=True, blank=True)
+    dc_aantal_eh = models.PositiveIntegerField(null=True, blank=True)
+    dc_bouwjaar = models.PositiveIntegerField(null=True, blank=True)
+    dc_straat = models.CharField(max_length=80, null=True, blank=True)
+    dc_huisnummer = models.CharField(max_length=20, null=True, blank=True)
+    dc_plaats = models.CharField(max_length=60, null=True, blank=True)
+    cm_stravis = models.PositiveIntegerField(null=True, blank=True)
+    cm_datum = models.DateField(null=True, blank=True)
+
+
 class ImportDeel(models.Model):
     deel_stravis = models.PositiveIntegerField(null=True, blank=True)
     scenariodeel_stravis = models.PositiveIntegerField()
@@ -101,7 +151,7 @@ class ImportDeel(models.Model):
     eh_ogr = models.PositiveIntegerField() # fallback naar generiek element
     conditie_sw = models.PositiveIntegerField(null=True, blank=True)
     conditie_ogr = models.PositiveIntegerField(null=True, blank=True)
-
+    sc_stravis = models.PositiveIntegerField(null=True, blank=True)
     def __str__(self):
         return self.naam
 

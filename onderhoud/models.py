@@ -154,7 +154,7 @@ class Element(models.Model):
         return self.naam
 
     class Meta:
-        ordering = ['codering', 'naam']
+        ordering = ['naam']
         verbose_name_plural = 'Elementen'
 
 
@@ -180,6 +180,11 @@ class Complex(models.Model):
     foto = models.ImageField(upload_to='complex', null=True, blank=True)
     actueel_scenario = models.OneToOneField('Scenario', related_name="actueel", null=True, blank=True)
     admin = models.ForeignKey(User, null=True, blank=True, related_name="complexadmin")
+    eenheden = models.PositiveIntegerField(null=True, blank=True)
+    bouwjaar = models.PositiveIntegerField(null=True, blank=True)
+    straat = models.CharField(max_length=80, null=True, blank=True)
+    huisnummer = models.CharField(max_length=20, null=True, blank=True)
+    plaats = models.CharField(max_length=60, null=True, blank=True)
 
     def __str__(self):
         return self.naam

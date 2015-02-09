@@ -1,10 +1,10 @@
-# Project specific
+#### Project specific ###
 /media
 /static
 /.idea
 /venv
 
-# This file contains secret information:
+# This file contains secret and environment-specific information:
 pressie/settings_local.py
 
 #### github boilerplate ###
