@@ -1,10 +1,10 @@
-import bisect
 from datetime import date
 from decimal import Decimal
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.db import models
+from onderhoud.nenhelp import calculate_aggregated, calculate_conditie, calculate_gebrek
 
 ERNST_KEUZES = (
     (1, 'Gering'),
@@ -451,27 +451,8 @@ class Conditiegroep(models.Model):
     def __str__(self):
         return self.scenariogroep.__str__()
 
-    def calculate_aggregated(self):
-        normaalwaarde = 0
-        conditiewaarde = 0
-        correctiefactor = {
-            1: 1.0,
-            2: 1.02,
-            3: 1.1,
-            4: 1.3,
-            5: 1.7,
-            6: 2.0
-        }
-
-        conditielookup = [0, 1.01, 1.04, 1.15, 1.4, 1.78]
-
-        for cd in self.conditiedeel_set.all():
-            waarde = cd.deel.hvh * cd.deel.complexdeel.element.vervangwaarde
-            normaalwaarde += waarde
-            conditiewaarde += waarde * correctiefactor[cd.conditiescore]
-
-        if normaalwaarde:
-            self.conditie = bisect.bisect_left(conditielookup, (conditiewaarde/normaalwaarde))
+    def set_conditie(self):
+        self.conditie = calculate_aggregated(self.conditiedeel_set.all())
 
     class Meta:
         ordering = ['scenariogroep']
@@ -495,6 +476,9 @@ class Conditiedeel(models.Model):
     def get_gebreken_count(self):
         return self.gebrek_set.count()
 
+    def set_conditie(self):
+        self.conditiescore = calculate_conditie(self)
+
     class Meta:
         ordering = ['deel']
         verbose_name_plural = 'Conditiedelen'
@@ -509,6 +493,9 @@ class Gebrek(models.Model):
 
     def __str__(self):
         return self.naam
+
+    def get_conditie(self):
+        return calculate_gebrek(self)
 
     class Meta:
         verbose_name_plural = 'Gebreken'

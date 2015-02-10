@@ -129,7 +129,7 @@ def import_data(uploadfile):
             start=convert_integer(r[9]),
             cyclus=convert_integer(r[10]),
             eind=convert_integer(r[11]),
-            opmerking=''  # TODO fix export om opmerking mee te nemen
+            opmerking=r[12]
         )
         impm.save()
 
