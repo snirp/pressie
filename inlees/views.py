@@ -315,7 +315,10 @@ def build_scenarios():
 
         # # # Conditiedeel # # #
         # TODO: skip in favor of dynamically generated conditiescore
-        cd_score = max(ideel.conditie_sw, ideel.conditie_ogr)
+        if not ideel.conditie_sw and not ideel.conditie_ogr:
+            cd_score = 1
+        else:
+            cd_score = max(ideel.conditie_sw, ideel.conditie_ogr)
         cd = Conditiedeel(
             conditiegroep=cg,
             deel=d,

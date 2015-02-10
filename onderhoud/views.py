@@ -27,3 +27,8 @@ def conditiefoto(request, pk):
 def complex_list(request):
     cx_list = Complex.objects.all()
     return render_to_response('onderhoud/complex-list.html', {'cx_list': cx_list})
+
+
+def conditiemetingen(request):
+    cm_list = Conditiemeting.objects.all()
+    return render_to_response('onderhoud/conditiemeting-list.html', {'cm_list': cm_list})
