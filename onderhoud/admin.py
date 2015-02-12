@@ -79,8 +79,13 @@ class ComplexdeelAdmin(admin.ModelAdmin):
     list_display = ('element', 'complexgroep', 'complex_naam')
 
 
+class MaatregelInline(admin.TabularInline):
+    model = Maatregel
+
+
 class DeelAdmin(admin.ModelAdmin):
     list_display = ('get_scenario', 'scenariogroep', 'naam', 'hvh')
+    inlines = [MaatregelInline]
 
 
 class GebrekInline(admin.TabularInline):
