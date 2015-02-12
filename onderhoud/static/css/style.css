@@ -88,6 +88,13 @@ h2 {
   margin: 20px 0;
 }
 
+h2 {
+  font-size: 20px;
+  color: #286fad;
+  font-weight: 400;
+  margin: 10px 0;
+}
+
 h4 {
   font-size: 16px;
   line-height: 28px;

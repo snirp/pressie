@@ -284,6 +284,14 @@ De inspecteur hanteert een genormeerde tabel om voor ieder bouwkundig element de
 
 <section id="samenvatting">
     <h2>Samenvatting complex</h2>
+    <div class="row">
+      <div class="col col-1-2">
+          <h3>Hoofdgroep</h3>
+      </div>
+      <div class="col col-1-2">
+          <h3>Gebrekenbeeld</h3>
+      </div>
+    </div>
 
     {% for cg in cm.conditiegroep_set.all %}
     <div class="row">
@@ -345,7 +353,9 @@ De inspecteur hanteert een genormeerde tabel om voor ieder bouwkundig element de
         {% endfor %}
     </table>
     {%  endif %}
+</div>
 {% endfor %}
+
 </section>
 <section id="conditie-uitgelicht">
 <h2>Uitgelichte gebreken</h2>
@@ -432,7 +442,6 @@ De inspecteur hanteert een genormeerde tabel om voor ieder bouwkundig element de
 
     {% endfor %}
 {% endfor %}
-</div>
 </div>
 </section>
     <script>
