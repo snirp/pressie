@@ -87,7 +87,7 @@ class Deelactiviteit(models.Model):
     btw = models.ForeignKey(Btw)
     naam = models.CharField(max_length=80)
     beschrijving = models.TextField(null=True, blank=True)
-    eh_prijs = models.DecimalField(max_digits=8, decimal_places=2)
+    eh_prijs = models.DecimalField(max_digits=10, decimal_places=2)
     eenheid = models.IntegerField(choices=EENHEID_KEUZES)
 
     def __str__(self):
@@ -346,7 +346,7 @@ class Maatregel(models.Model):
     naam = models.CharField(max_length=80)
     activiteit = models.ForeignKey(Activiteit)
     btw_percentage = models.FloatField()
-    ehprijs_excl = models.DecimalField(max_digits=8, decimal_places=2)
+    ehprijs_excl = models.DecimalField(max_digits=10, decimal_places=2)
     relatief = models.BooleanField(default=False)
     hvh = models.FloatField(default=100)
     start = models.PositiveIntegerField(default=date.today().year + 1)

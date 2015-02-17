@@ -165,8 +165,8 @@ class ImportMaatregel(models.Model):
     activiteit_stravis = models.PositiveIntegerField()
     eenheid = models.PositiveIntegerField()  # fallback naar generieke activiteit
     naam = models.CharField(max_length=80)  # ook fallback
-    eh_prijs_excl = models.DecimalField(max_digits=8, decimal_places=2)
-    eh_prijs_incl = models.DecimalField(max_digits=8, decimal_places=2)
+    eh_prijs_excl = models.DecimalField(max_digits=10, decimal_places=2)
+    eh_prijs_incl = models.DecimalField(max_digits=10, decimal_places=2)
     relatief = models.BooleanField(default=True)
     hvh_uitvoer = models.FloatField()
     start = models.PositiveIntegerField()
