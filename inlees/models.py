@@ -141,7 +141,7 @@ class ImportDeel(models.Model):
     deel_stravis = models.PositiveIntegerField(null=True, blank=True)
     scenariodeel_stravis = models.PositiveIntegerField()
     hoofdgroep_stravis = models.PositiveIntegerField()
-    naam = models.CharField(max_length=80)
+    naam = models.CharField(max_length=130)
     schilderjaar = models.PositiveIntegerField(null=True, blank=True)
     vervangjaar = models.PositiveIntegerField(null=True, blank=True)
     hvh_sw = models.FloatField(null=True, blank=True)
