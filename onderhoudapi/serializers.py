@@ -1,12 +1,41 @@
-from onderhoud.models import Complex, Scenario, Scenariogroep, Complexgroep, Deel, Maatregel
+from onderhoud.models import Complex, Scenario, Scenariogroep, Complexgroep, Deel, Maatregel, Gebrek, Conditiedeel, \
+    Conditiegroep, Conditiemeting
 from rest_framework import serializers
 
 
-class MaatregelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Maatregel
-        fields = ('hoeveelheid', 'eh', 'naam', 'ehprijs_excl', 'prijs_excl', 'btw_percentage', 'start', 'cyclus', 'eind')
+# # # gebreken # # #
 
+class GebrekSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gebrek
+        fields = ('naam', 'get_type', 'get_omvang_waarde', 'get_intensiteit_waarde', 'get_ernst_waarde')
+
+
+class ConditiedeelSerializer(serializers.ModelSerializer):
+    gebrek_set = GebrekSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Conditiedeel
+        fields = ('__str__', 'conditiescore', 'gebrek_set', )
+
+
+class ConditiegroepSerializer(serializers.ModelSerializer):
+    conditiedeel_set = ConditiedeelSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Conditiegroep
+        fields = ('__str__', 'conditie', 'conditiedeel_set')
+
+
+class ConditiemetingSerializer(serializers.ModelSerializer):
+    conditiegroep_set = ConditiegroepSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Conditiemeting
+        fields = ('complex_code', 'complex_naam', 'datum', 'conditiegroep_set')
+
+
+# # # Complexen # # #
 
 class ComplexSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,6 +47,14 @@ class ComplexgroepSerializer(serializers.ModelSerializer):
         model = Complexgroep
 
 
+# # # Scenarios # # #
+
+class MaatregelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Maatregel
+        fields = ('hoeveelheid', 'eh', 'naam', 'ehprijs_excl', 'prijs_excl', 'btw_percentage', 'start', 'cyclus', 'eind')
+
+
 class DeelSerializer(serializers.ModelSerializer):
     maatregelen = MaatregelSerializer(many=True, read_only=True)
 
@@ -27,7 +64,7 @@ class DeelSerializer(serializers.ModelSerializer):
 
 
 class ScenariogroepSerializer(serializers.ModelSerializer):
-    delen = DeelSerializer(many=True,read_only=True)
+    delen = DeelSerializer(many=True, read_only=True)
 
     class Meta:
         model = Scenariogroep
@@ -40,3 +77,4 @@ class ScenarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Scenario
         fields = ('naam', 'start', 'scenariogroepen')
+

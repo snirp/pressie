@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block extrahead %}
+      <script src={% static "js/conditiemetingparser.js" %}></script>
+{% endblock %}
+
+{% block content %}
+
+
+<div id="conditiemetingen"></div>
+
+
+<script>
+
+
+var $promiseScenario = $.getJSON("/onderhoudapi/conditiemeting/.json");
+
+$promiseScenario.done(buildGrid);
+$promiseScenario.fail(function() { console.log( "XMLhttpRequest failed" ); });
+
+function buildGrid(data, success, obj) {
+    buildConditiemeting(data);
+}
+
+function buildConditiemeting(data){
+    var kolommen = [
+        new Column({
+            cellKey: 'complex',
+            thText: 'complex',
+            width: 25
+        }),
+        new Column({
+            cellKey: 'conditiegroep',
+            thText: 'hoofdgroep',
+            width: 4
+        }),
+        new Column({
+            cellKey: 'datum',
+            thText: 'datum',
+            bodyClasses: ['right'],
+            width: 4
+        }),
+        new Column({
+            cellKey: 'aggregatie',
+            contentType: 'number',
+            thText: 'score',
+            bodyClasses: ['right'],
+            width: 4,
+            filterOptions: numberFilters
+        }),
+        new Column({
+            cellKey: 'deel',
+            thText: 'deel',
+            width: 15
+        }),
+        new Column({
+            cellKey: 'conditie',
+            contentType: 'number',
+            thText: 'conditie',
+            bodyClasses: ['right'],
+            width: 4,
+            filterOptions: numberFilters
+        }),
+        new Column({
+            cellKey: 'gebrektype',
+            thText: 'gebrektype',
+            width: 12
+        }),
+        new Column({
+            cellKey: 'gebrek',
+            thText: 'gebrek',
+            width: 15
+        }),
+        new Column({
+            cellKey: 'ernst',
+            thText: 'ernst',
+            width: 5
+        }),
+        new Column({
+            cellKey: 'intensiteit',
+            thText: 'intensiteit',
+            width: 5
+        }),
+        new Column({
+            cellKey: 'omvang',
+            contentType: 'number',
+            formatString: '0 %',
+            thText: 'omvang',
+            bodyClasses: ['right'],
+            width: 4,
+            filterOptions: numberFilters
+        })
+    ];
+
+    var rijen = parseConditiemeting(data);
+
+    var g = new Gritty({
+        sorting: [1],
+        grouping: [0],
+        rows: rijen,
+        columns: kolommen,
+        renderTarget: document.getElementById('conditiemetingen')
+    });
+
+    g.renderGrid();
+}
+
+</script>
+
+
+
+
+{% endblock %}

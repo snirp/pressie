@@ -39,6 +39,11 @@ OMVANG_KEUZES = (
     (4, '> 70%'),
 )
 
+OMVANG_WAARDES = (0.01, 0.06, 0.2, 0.5, 0.9)
+INTENSITEIT_WAARDES = ('laag', 'midden', 'hoog')
+ERNST_WAARDES = ('dummy0', 'gering', 'serieus', 'ernstig')
+
+
 # # # STAMGEGEVENS # # #
 
 
@@ -316,7 +321,7 @@ class Scenariogroep(models.Model):
 
 
 class Deel(models.Model):
-    naam = models.CharField(max_length=80)
+    naam = models.CharField(max_length=130)
     complexdeel = models.ForeignKey(Complexdeel)
     scenariogroep = models.ForeignKey(Scenariogroep, related_name='delen')
     hvh = models.FloatField()
@@ -431,6 +436,9 @@ class Conditiemeting(models.Model):
     def complex_naam(self):
         return self.scenario.complex.__str__()
 
+    def complex_code(self):
+        return self.scenario.complex.code
+
     def get_absolute_url(self):
         return reverse('conditiemeting_detail', args=(self.id,))
 
@@ -493,6 +501,18 @@ class Gebrek(models.Model):
 
     def __str__(self):
         return self.naam
+
+    def get_type(self):
+        return self.nengebrek.gebrektype.__str__()
+
+    def get_omvang_waarde(self):
+        return OMVANG_WAARDES[self.omvang]
+
+    def get_intensiteit_waarde(self):
+        return INTENSITEIT_WAARDES[self.intensiteit]
+
+    def get_ernst_waarde(self):
+        return ERNST_WAARDES[self.nengebrek.gebrektype.ernst]
 
     def get_conditie(self):
         return calculate_gebrek(self)

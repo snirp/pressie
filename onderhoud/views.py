@@ -9,6 +9,10 @@ def home_page(request):
     return render_to_response('home_page.html')
 
 
+def begroting_list(request):
+    return render_to_response('onderhoud/begroting-list.html')
+
+
 def begroting(request, pk):
     scenario = Scenario.objects.get(pk=pk)
     return render_to_response('onderhoud/begroting.html', {'scenario': scenario})
@@ -32,3 +36,7 @@ def complex_list(request):
 def conditiemetingen(request):
     cm_list = Conditiemeting.objects.all()
     return render_to_response('onderhoud/conditiemeting-list.html', {'cm_list': cm_list})
+
+
+def gebreken_tabel(request):
+    return render_to_response('onderhoud/gebreken-tabel.html')

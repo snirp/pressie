@@ -2,13 +2,11 @@
 {% load staticfiles %}
 
 {% block extrahead %}
-      <script src={% static "js/begrotingparser.js" %}></script>
+      <script src={% static "js/begrotingenparser.js" %}></script>
 {% endblock %}
 
 {% block content %}
-<div id="print-header">
-    Meerjaren onderhoudsbegroting van {{ scenario.complex }}
-</div>
+
 
 <div id="begroting-controls">
     <ul class="input-list">
@@ -37,12 +35,13 @@
 <script>
 
 
-var $promiseScenario = $.getJSON("/onderhoudapi/scenario/{{ scenario.pk }}/.json");
+var $promiseScenario = $.getJSON("/onderhoudapi/scenario/.json");
 
 $promiseScenario.done(buildGrid);
 $promiseScenario.fail(function() { console.log( "XMLhttpRequest failed" ); });
 
 function buildGrid(data, success, obj) {
+    console.log(data.length);
     buildScenario(data);
 }
 
@@ -60,6 +59,12 @@ function buildScenario(data){
     var detail = 5;             // Default voor user input: detail
     var horizon = 25;           // Default voor user input: horizon
     var vasteKolommen = [       // Eerste kolommen van gritty grid
+        new Column({
+            cellKey: 'scenario',
+            thText: 'scenario',
+            width: 25,
+            headClasses: ['left']
+        }),
         new Column({
             cellKey: 'groep',
             thText: 'scenariogroep',
