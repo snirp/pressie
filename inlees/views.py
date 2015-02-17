@@ -365,7 +365,10 @@ def build_scenarios():
         except ObjectDoesNotExist:
             act = Activiteit.objects.get(generiek=True, eenheid=imr.eenheid)
 
-        btw = (imr.eh_prijs_incl - imr.eh_prijs_excl) / imr.eh_prijs_excl
+        if imr.eh_prijs_excl:
+            btw = (imr.eh_prijs_incl - imr.eh_prijs_excl) / imr.eh_prijs_excl
+        else:
+            btw = 0.21
 
         m = Maatregel(
             naam=imr.naam.capitalize(),
