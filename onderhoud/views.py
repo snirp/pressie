@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response
 from django.shortcuts import render
 from onderhoud.models import Scenario, Conditiemeting, Conditiefoto, Complex
 from pressie import settings
-
+from django.contrib.auth.decorators import login_required
 
 def home_page(request):
     return render_to_response('home_page.html')
@@ -33,6 +33,7 @@ def complex_list(request):
     return render_to_response('onderhoud/complex-list.html', {'cx_list': cx_list})
 
 
+@login_required
 def conditiemetingen(request):
     cm_list = Conditiemeting.objects.all()
     return render_to_response('onderhoud/conditiemeting-list.html', {'cm_list': cm_list})

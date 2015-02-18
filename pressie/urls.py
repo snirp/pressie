@@ -4,6 +4,8 @@ from pressie import settings
 
 urlpatterns = patterns('',
     url(r'^$', 'onderhoud.views.home_page', name='home'),
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'admin/login.html'}, name='mylogin'),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', name='mylogout'),
     url(r'^onderhoud/', include('onderhoud.urls')),
     url(r'^onderhoudapi/', include('onderhoudapi.urls')),
     url(r'^inlees/', include('inlees.urls')),
