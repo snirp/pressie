@@ -7,9 +7,9 @@ from django.db import models
 from onderhoud.nenhelp import calculate_aggregated, calculate_conditie, calculate_gebrek
 
 ERNST_KEUZES = (
-    (1, 'Gering'),
-    (2, 'Serieus'),
-    (3, 'Ernstig'),
+    (0, 'Gering'),
+    (1, 'Serieus'),
+    (2, 'Ernstig'),
 )
 
 INTENSITEIT_KEUZES = (
@@ -19,6 +19,7 @@ INTENSITEIT_KEUZES = (
 )
 
 EENHEID_KEUZES = (
+    (0, ''),
     (1, '%'),
     (2, 'm'),
     (3, 'm2'),
@@ -457,7 +458,7 @@ class Conditiegroep(models.Model):
     conditie = models.IntegerField(default=1, choices=CONDITIE_KEUZES)
 
     def __str__(self):
-        return self.scenariogroep.__str__()
+        return self.scenariogroep.scenario.complex.__str__() + self.scenariogroep.__str__()
 
     def set_conditie(self):
         self.conditie = calculate_aggregated(self.conditiedeel_set.all())

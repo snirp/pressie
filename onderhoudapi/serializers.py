@@ -1,11 +1,19 @@
 from onderhoud.models import Complex, Scenario, Scenariogroep, Complexgroep, Deel, Maatregel, Gebrek, Conditiedeel, \
-    Conditiegroep, Conditiemeting
+    Conditiegroep, Conditiemeting, Conditiefoto
 from rest_framework import serializers
 
 
 # # # gebreken # # #
 
+class ConditiefotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Conditiefoto
+        fields = ('url', 'id', 'foto', 'conditiedeel')
+
+
 class GebrekSerializer(serializers.ModelSerializer):
+    conditiefoto_set = ConditiefotoSerializer(many=True, read_only=True)
+
     class Meta:
         model = Gebrek
         fields = ('naam', 'get_type', 'get_omvang_waarde', 'get_intensiteit_waarde', 'get_ernst_waarde')

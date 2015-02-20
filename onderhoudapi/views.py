@@ -1,14 +1,17 @@
+from django.http import Http404
 from onderhoud.models import Complex, Scenario, Scenariogroep, Complexgroep, Conditiemeting, Conditiegroep, Conditiedeel, \
-    Gebrek
+    Gebrek, Conditiefoto
 from onderhoudapi.serializers import ComplexSerializer, ScenarioSerializer, ScenariogroepSerializer, ComplexgroepSerializer, \
-    ConditiemetingSerializer, ConditiegroepSerializer, ConditiedeelSerializer, GebrekSerializer
+    ConditiemetingSerializer, ConditiegroepSerializer, ConditiedeelSerializer, GebrekSerializer, ConditiefotoSerializer
 from pressie import settings
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework import viewsets
 
 @api_view(('GET',))
 def api_root(request, format=None):
@@ -56,6 +59,11 @@ class ScenariogroepListAPI(generics.ListAPIView):
 class ScenariogroepDetailAPI(generics.RetrieveAPIView):
     queryset = Scenariogroep.objects.all()
     serializer_class = ScenariogroepSerializer
+
+
+class ConditiefotoDetail(viewsets.ModelViewSet):
+    queryset = Conditiefoto.objects.all()
+    serializer_class = ConditiefotoSerializer
 
 
 class GebrekListAPI(generics.ListAPIView):
