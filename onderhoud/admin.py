@@ -1,7 +1,25 @@
 from django.contrib import admin
+from django.forms import ModelForm
 from .models import Complex, Complexgroep, Complexdeel, Scenario, Scenariogroep, Deel, Maatregel, \
     Conditiemeting, Conditiegroep, Conditiedeel, Gebrek, Conditiefoto, Hoofdgroep, Hoofdcodering, Codering, \
     Element, Activiteit, Gebrektype, Nengebrek, Deelactiviteit, ActiviteitOnderbouwing, Btw
+
+
+# Example to override queryset
+class ConditiegroepAdminForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ConditiegroepAdminForm, self).__init__(*args, **kwargs)
+        # access object through self.instance...
+        self.fields['scenariogroep'].queryset = Scenariogroep.objects.all()
+
+
+class GebrekAdmin(admin.ModelAdmin):
+    raw_id_fields = ('conditiedeel',)
+
+
+class ConditiegroepAdmin(admin.ModelAdmin):
+    raw_id_fields = ('scenariogroep',)
+    #form = ConditiegroepAdminForm
 
 
 class NengebrekAdmin(admin.ModelAdmin):
@@ -68,6 +86,7 @@ class ScenarioAdmin(admin.ModelAdmin):
 
 class ConditiegroepInline(admin.TabularInline):
     model = Conditiegroep
+    raw_id_fields = ('scenariogroep', )
 
 
 class ConditiemetingAdmin(admin.ModelAdmin):
@@ -76,7 +95,7 @@ class ConditiemetingAdmin(admin.ModelAdmin):
 
 
 class ComplexdeelAdmin(admin.ModelAdmin):
-    list_display = ('element', 'complexgroep', 'complex_naam')
+    list_display = ('element', 'complexgroep')
 
 
 class MaatregelInline(admin.TabularInline):
@@ -84,8 +103,9 @@ class MaatregelInline(admin.TabularInline):
 
 
 class DeelAdmin(admin.ModelAdmin):
-    list_display = ('get_scenario', 'scenariogroep', 'naam', 'hvh')
+    list_display = ('scenariogroep', 'naam', 'hvh')
     inlines = [MaatregelInline]
+    raw_id_fields = ('complexdeel', 'scenariogroep')
 
 
 class GebrekInline(admin.TabularInline):
@@ -100,6 +120,7 @@ class ConditiedeelAdmin(admin.ModelAdmin):
     inlines = [GebrekInline, ConditiefotoInline]
     list_display = ('conditiegroep', 'deel', 'conditiescore', 'get_complex_str', 'get_conditiemeting_str' )
     list_filter = ('conditiescore', )
+    raw_id_fields = ('deel', 'conditiegroep')
 
 
 class MaatregelAdmin(admin.ModelAdmin):
@@ -108,6 +129,7 @@ class MaatregelAdmin(admin.ModelAdmin):
 
 class DeelInline(admin.TabularInline):
     model = Deel
+    raw_id_fields = ('complexdeel',)
 
 
 class ScenariogroepAdmin(admin.ModelAdmin):
@@ -131,7 +153,7 @@ admin.site.register(Deel, DeelAdmin)
 admin.site.register(Conditiedeel, ConditiedeelAdmin)
 admin.site.register(Maatregel, MaatregelAdmin)
 admin.site.register(Scenariogroep, ScenariogroepAdmin)
-admin.site.register(Conditiegroep)
+admin.site.register(Conditiegroep, ConditiegroepAdmin)
 admin.site.register(Complexgroep, ComplexgroepAdmin)
-admin.site.register(Gebrek)
+admin.site.register(Gebrek, GebrekAdmin)
 admin.site.register(Conditiefoto)

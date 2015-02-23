@@ -214,7 +214,7 @@ class Complexgroep(models.Model):
         return self.naam
 
     class Meta:
-        ordering = ['complex', 'hoofdgroep']
+        ordering = ['hoofdgroep']
         verbose_name_plural = 'Complexgroepen'
 
 
@@ -225,10 +225,7 @@ class Complexdeel(models.Model):
     # onderhoudshistorie
 
     def __str__(self):
-        return self.element.__str__()
-
-    def complex_naam(self):
-        return self.complexgroep.complex.__str__()
+        return self.element.naam
 
     class Meta:
         ordering = ['complexgroep', 'element']
@@ -285,12 +282,8 @@ class Scenariogroep(models.Model):
     scenario = models.ForeignKey(Scenario, related_name='scenariogroepen')
     # what else?
 
-    def naam(self):
-        #alias for API use
-        return self.__str__()
-
     def __str__(self):
-        return self.complexgroep.__str__()
+        return self.complexgroep.naam
 
     """
     def jaarbedragen_incl(self, jaar_bereik=None):  # TODO gebruik jaarbedragen methode van onderliggende delen
@@ -317,7 +310,6 @@ class Scenariogroep(models.Model):
     """
 
     class Meta:
-        ordering = ['complexgroep']
         verbose_name_plural = 'Scenariogroepen'
 
 
@@ -335,11 +327,8 @@ class Deel(models.Model):
     def eenheid(self):
         return self.complexdeel.element.get_eenheid_display()
 
-    def get_scenario(self):
-        return self.scenariogroep.scenario.__str__()
-
     class Meta:
-        ordering = ['scenariogroep', 'naam']
+        ordering = ['naam']
         verbose_name_plural = 'Delen'
 
 
@@ -419,7 +408,7 @@ class Maatregel(models.Model):
     """
 
     class Meta:
-        ordering = ['naam', 'start']
+        ordering = ['naam']
         verbose_name_plural = 'Maatregelen'
 
 
@@ -458,7 +447,7 @@ class Conditiegroep(models.Model):
     conditie = models.IntegerField(default=1, choices=CONDITIE_KEUZES)
 
     def __str__(self):
-        return self.scenariogroep.scenario.complex.__str__() + self.scenariogroep.__str__()
+        return self.scenariogroep.complexgroep.naam
 
     def set_conditie(self):
         self.conditie = calculate_aggregated(self.conditiedeel_set.all())
@@ -474,7 +463,7 @@ class Conditiedeel(models.Model):
     conditiescore = models.IntegerField(choices=CONDITIE_KEUZES)
 
     def __str__(self):
-        return self.deel.__str__()
+        return self.deel.naam
 
     def get_conditiemeting_str(self):
         return self.conditiegroep.conditiemeting.__str__()
@@ -489,7 +478,7 @@ class Conditiedeel(models.Model):
         self.conditiescore = calculate_conditie(self)
 
     class Meta:
-        ordering = ['deel']
+        ordering = ['conditiegroep', 'deel']
         verbose_name_plural = 'Conditiedelen'
 
 

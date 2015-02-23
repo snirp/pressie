@@ -12,8 +12,6 @@ class ConditiefotoSerializer(serializers.ModelSerializer):
 
 
 class GebrekSerializer(serializers.ModelSerializer):
-    conditiefoto_set = ConditiefotoSerializer(many=True, read_only=True)
-
     class Meta:
         model = Gebrek
         fields = ('naam', 'get_type', 'get_omvang_waarde', 'get_intensiteit_waarde', 'get_ernst_waarde')
@@ -21,10 +19,11 @@ class GebrekSerializer(serializers.ModelSerializer):
 
 class ConditiedeelSerializer(serializers.ModelSerializer):
     gebrek_set = GebrekSerializer(many=True, read_only=True)
+    conditiefoto_set = ConditiefotoSerializer(many=True, read_only=True)
 
     class Meta:
         model = Conditiedeel
-        fields = ('__str__', 'conditiescore', 'gebrek_set', )
+        fields = ('__str__', 'conditiescore', 'gebrek_set', 'conditiefoto_set', )
 
 
 class ConditiegroepSerializer(serializers.ModelSerializer):
@@ -40,7 +39,9 @@ class ConditiemetingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Conditiemeting
-        fields = ('complex_code', 'complex_naam', 'datum', 'conditiegroep_set')
+        fields = ('id', 'complex_code', 'complex_naam', 'datum', 'conditiegroep_set')
+
+
 
 
 # # # Complexen # # #
@@ -76,7 +77,7 @@ class ScenariogroepSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Scenariogroep
-        fields = ('naam', 'delen', )
+        fields = ('__str__', 'delen', )
 
 
 class ScenarioSerializer(serializers.ModelSerializer):
