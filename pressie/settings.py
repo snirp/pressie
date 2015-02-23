@@ -35,7 +35,6 @@ INSTALLED_APPS = (
     'onderhoudapi',
     'inlees',
     'sorl.thumbnail',
-    'debug_toolbar',
 )
 
 MIDDLEWARE_CLASSES = (
