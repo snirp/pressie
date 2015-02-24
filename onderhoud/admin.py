@@ -103,7 +103,7 @@ class MaatregelInline(admin.TabularInline):
 
 
 class DeelAdmin(admin.ModelAdmin):
-    list_display = ('scenariogroep', 'naam', 'hvh')
+    list_display = ('scenariogroep', 'get_complex_naam', 'naam', 'hvh')
     inlines = [MaatregelInline]
     raw_id_fields = ('complexdeel', 'scenariogroep')
 

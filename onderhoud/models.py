@@ -214,7 +214,7 @@ class Complexgroep(models.Model):
         return self.naam
 
     class Meta:
-        ordering = ['hoofdgroep']
+        ordering = ['complex', 'hoofdgroep']
         verbose_name_plural = 'Complexgroepen'
 
 
@@ -326,11 +326,14 @@ class Deel(models.Model):
     def __str__(self):
         return self.naam
 
+    def get_complex_naam(self):
+        return self.complexdeel.complexgroep.complex.__str__()
+
     def eenheid(self):
         return self.complexdeel.element.get_eenheid_display()
 
     class Meta:
-        ordering = ['naam']
+        ordering = ['complexdeel', 'naam']
         verbose_name_plural = 'Delen'
 
 
