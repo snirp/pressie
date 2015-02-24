@@ -246,6 +246,8 @@ class Scenario(models.Model):
     def get_begroting_url(self):
         return reverse('begroting', args=(self.id,))
 
+    class Meta:
+        ordering = ['complex', '-start']
 
 
     """
@@ -436,7 +438,7 @@ class Conditiemeting(models.Model):
         return reverse('conditiemeting_groepen', args=(self.id,))
 
     class Meta:
-        ordering = ['-datum']
+        ordering = ['scenario', '-datum']
         verbose_name_plural = 'Conditiemetingen'
 
 
@@ -453,7 +455,7 @@ class Conditiegroep(models.Model):
         self.conditie = calculate_aggregated(self.conditiedeel_set.all())
 
     class Meta:
-        ordering = ['scenariogroep']
+        ordering = ['conditiemeting', 'scenariogroep']
         verbose_name_plural = 'Conditiegroepen'
 
 
