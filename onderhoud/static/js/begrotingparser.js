@@ -61,7 +61,7 @@ var parseBegroting = function(scenarioJson, horizon, detail, btw) {
 
                 // TODO implementeer rijobject met methodes
                 var row = {};
-                row.groep = sg.naam;
+                row.groep = sg.__str__;
                 row.deel = dl.naam;
                 row.deelhvh = dl.hvh;
                 row.deeleh = dl.eenheid;
