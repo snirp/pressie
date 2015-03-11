@@ -118,7 +118,7 @@ class ConditiefotoInline(admin.TabularInline):
 
 class ConditiedeelAdmin(admin.ModelAdmin):
     inlines = [GebrekInline, ConditiefotoInline]
-    list_display = ('conditiegroep', 'deel', 'conditiescore', 'get_complex_str', 'get_conditiemeting_str' )
+    list_display = ('id', 'conditiegroep', 'deel', 'conditiescore', 'get_complex_str', 'get_conditiemeting_str' )
     list_filter = ('conditiescore', )
     raw_id_fields = ('deel', 'conditiegroep')
 
