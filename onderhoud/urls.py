@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     url(r'^begroting/(?P<pk>\d+)/$', views.begroting, name='begroting'),
     url(r'^conditiemeting/$', views.conditiemetingen, name='conditiemeting_list'),
     url(r'^conditiemeting/(?P<pk>\d+)/$', views.conditiemeting, name='conditiemeting_detail'),
+    url(r'^cm/(?P<pk>\d+)/$', views.cm, name='cm_detail'),
     url(r'^conditiefoto/(?P<pk>\d+)/$', views.conditiefoto, name='conditiefoto'),
     url(r'^gebreken/$', views.gebreken_tabel, name='gebreken_tabel')
 )

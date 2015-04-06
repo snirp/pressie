@@ -23,6 +23,11 @@ def conditiemeting(request, pk):
     return render_to_response('onderhoud/conditiemeting.html', {'cm': cm})
 
 
+def cm(request, pk):
+    condmet = Conditiemeting.objects.get(pk=pk)
+    return render_to_response('onderhoud/cm.html', {'cm': condmet})
+
+
 def conditiefoto(request, pk):
     cf = Conditiefoto.objects.get(pk=pk)
     return render_to_response('onderhoud/conditiefoto.html', {'cf': cf})

@@ -362,7 +362,6 @@ De inspecteur hanteert een genormeerde tabel om voor ieder bouwkundig element de
 
 {% for cg in cm.conditiegroep_set.all %}
   {% for cd in cg.conditiedeel_set.all %}
-    {% if cd.conditiescore > 2 %}
       <div class="container conditiedeel">
         <table class="table conditiedeel-table">
           <tr>
@@ -407,44 +406,13 @@ De inspecteur hanteert een genormeerde tabel om voor ieder bouwkundig element de
         </div>
       </div>
 
-    {% endif %}
   {% endfor %}
 {% endfor %}
-</section>
 
-<section id="conditie-tiles">
-<h2>Conditie-beelden</h2>
-
-<div class="tile-container">
-{% for cg in cm.conditiegroep_set.all %}
-  <div class="tile">
-    <div class='tile-content'>
-      <div>
-        <span>{{ cg }}</span>
-      </div>
-    </div>
-  </div>
-  {% for cd in cg.conditiedeel_set.all %}
-      <a class="tile tile-cs{{ cd.conditiescore }}" href="#">
-        <div class='tile-content'>
-          <div>
-            <span>{{ cd }}</span>
-          </div>
-        </div>
-      </a>
-      {% for f in cd.conditiefoto_set.all|slice:":5" %}
-        {% thumbnail f.foto "240x240" crop="center" as im %}
-        <a class="img-tile" href="{{ f.foto.url }}">
-          <img src="{{ im.url }}">
-        </a>
-        {% endthumbnail %}
-      {% endfor %}
-
-    {% endfor %}
-{% endfor %}
-</div>
 </section>
 </div>
+
+
     <script>
     $('.img-tile').colorbox({
         rel: "gal",
