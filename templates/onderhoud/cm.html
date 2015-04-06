@@ -339,7 +339,7 @@ De inspecteur hanteert een genormeerde tabel om voor ieder bouwkundig element de
         <tr>
           <td>{{ cd }}</td>
           <td>{{ cd.deel.hvh }}</td>
-          <td>{{ cd.deel.get_eenheid }}</td>
+          <td>{{ cd.deel.eenheid }}</td>
           <td>{{ cd.deel.complexdeel.onderhoudsjaar }}</td>
           <td class="conditie conditie{{ cd.conditiescore }}">
             <div class="vak vak0"></div>
@@ -367,7 +367,7 @@ De inspecteur hanteert een genormeerde tabel om voor ieder bouwkundig element de
           <tr>
             <th class="conditie{{ cd.conditiescore }}">
               <div class="vak vak-enkel"></div>
-              <strong>{{ cd.conditiegroep }} - {{ cd }}: {{ cd.deel.hvh }} {{ cd.deel.get_eenheid }}</strong></th>
+              <strong>{{ cd.conditiegroep }} - {{ cd }}: {{ cd.deel.hvh }} {{ cd.deel.eenheid }}</strong></th>
             <th>ernst</th>
             <th>intensiteit</th>
             <th>omvang</th>
