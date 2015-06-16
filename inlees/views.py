@@ -453,6 +453,7 @@ def import_single_data(uploadfile):
 
 
 def build_single_scenario(s):
+    dbase = StravisDatabase.objects.get(pk=1)
     for ideel in ImportDeel.objects.all():
         # # # Complexgroep # # #
         hg = VertaalHoofdgroep.objects.get(hoofdgroep_stravis=ideel.hoofdgroep_stravis).hoofdgroep
@@ -516,6 +517,7 @@ def build_single_scenario(s):
         # # # Deel Link # # #
         dlink = DeelLink(
             deel=d,
+            database=dbase,
             scenariodeel_stravis=ideel.scenariodeel_stravis
         )
         dlink.save()
@@ -541,6 +543,7 @@ def build_single_scenario(s):
         if ideel.deel_stravis:
             cdlink = ConditiedeelLink(
                 conditiedeel=cd,
+                database=dbase,
                 deel_stravis=ideel.deel_stravis
             )
             cdlink.save()
