@@ -550,7 +550,7 @@ def build_single_scenario(s):
 
     # # # Gebrek # # #
     for igebrek in ImportGebrek.objects.all():
-        cd = ConditiedeelLink.objects.get(deel_stravis=igebrek.deel_stravis).conditiedeel
+        cd = ConditiedeelLink.objects.filter(deel_stravis=igebrek.deel_stravis)[0].conditiedeel
         # Vind matchend gebrek in vertaaltabel of val terug naar generiek gebrek
         # Het generieke gebrek dient van gelijk gebrektype te zijn.
         try:
