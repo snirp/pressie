@@ -570,7 +570,7 @@ def build_single_scenario(s):
 
     # # # Maatregel # # #
     for imr in ImportMaatregel.objects.all():
-        d = DeelLink.objects.get(scenariodeel_stravis=imr.scenariodeel_stravis).deel
+        d = DeelLink.objects.filter(scenariodeel_stravis=imr.scenariodeel_stravis)[0].deel
         # Vind matchende activiteit in vertaaltabel of val terug naar generieke activiteit
         # De generieke activiteit dient een gelijke eenheid te hebben.
         try:
